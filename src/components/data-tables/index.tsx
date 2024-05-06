@@ -27,9 +27,9 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-import {DataTablePagination} from "./pagination"
-import {DataTableToolbar} from "./toolbar"
-import {DataTableFilterableColumn, DataTableSearchableColumn} from "@/types";
+import { DataTablePagination } from "./pagination"
+import { DataTableToolbar } from "./toolbar"
+import { DataTableFilterableColumn, DataTableSearchableColumn } from "@/types";
 
 
 interface DataTableProps<TData, TValue> {
@@ -44,16 +44,16 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTableRaw<TData, TValue>({
-                                                columns,
-                                                data,
-                                                showToolbar=true,
-                                                searchableColumns,
-                                                filterableColumns = [],
-                                                newRowLink,
-                                                deleteRowsAction,
-                                                newRowAction,
+    columns,
+    data,
+    showToolbar = true,
+    searchableColumns,
+    filterableColumns = [],
+    newRowLink,
+    deleteRowsAction,
+    newRowAction,
 
-                                            }: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = React.useState({})
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
@@ -85,7 +85,7 @@ export function DataTableRaw<TData, TValue>({
         getSortedRowModel: getSortedRowModel(),
         getFacetedRowModel: getFacetedRowModel(),
         getFacetedUniqueValues: getFacetedUniqueValues(),
-        globalFilterFn:"includesString",
+        globalFilterFn: "includesString",
     });
 
 
@@ -93,20 +93,20 @@ export function DataTableRaw<TData, TValue>({
 
     return (
         <div className="space-y-4 w-full">
-            {showToolbar &&   <DataTableToolbar table={table}
-                                                filterableColumns={filterableColumns}
-                                                searchableColumns={searchableColumns}
-                                                newRowLink={newRowLink}
-                                                deleteRowsAction={deleteRowsAction}
-                                                newRowAction={newRowAction}
+            {showToolbar && <DataTableToolbar table={table}
+                filterableColumns={filterableColumns}
+                searchableColumns={searchableColumns}
+                newRowLink={newRowLink}
+                deleteRowsAction={deleteRowsAction}
+                newRowAction={newRowAction}
 
             />}
 
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={`${headerGroup.id}.${id}`}>
+                        {table.getHeaderGroups().map((headerGroup, index) => (
+                            <TableRow key={`${headerGroup.id}.${id}_${index}`} id={`${headerGroup.id}.${id}_${index}`}>
                                 {headerGroup.headers.map((header) => {
                                     return (
                                         <TableHead key={`${header.id}-${id}`} colSpan={header.colSpan}>
@@ -124,16 +124,15 @@ export function DataTableRaw<TData, TValue>({
                     </TableHeader>
                     <TableBody>
                         {table?.getRowModel()?.rows?.length > 0 ? (
-                            table.getRowModel().rows.map((row) => (
+                            table.getRowModel().rows.map((row, index) => (
                                 <>
-
-
                                     <TableRow
-                                        key={`${row.id}+${id}`}
+                                        key={`${row.id}+${id}_${index}`}
+                                        id={`${row.id}+${id}_${index}`}
                                         data-state={row.getIsSelected() && "selected"}
                                     >
-                                        {row.getVisibleCells().map((cell) => (
-                                            <TableCell key={`${cell.id}/${id}`}>
+                                        {row.getVisibleCells().map((cell,idx) => (
+                                            <TableCell key={`${cell.id}/${id}/${idx}`} id={`${cell.id}/${id}/${idx}`}>
                                                 {flexRender(
                                                     cell.column.columnDef.cell,
                                                     cell.getContext()
@@ -157,7 +156,7 @@ export function DataTableRaw<TData, TValue>({
                 </Table>
             </div>
             <div className="w-full overflow-hidden">
-                <DataTablePagination table={table} showRowPerPage={false}/>
+                <DataTablePagination table={table} showRowPerPage={false} />
             </div>
         </div>
     )

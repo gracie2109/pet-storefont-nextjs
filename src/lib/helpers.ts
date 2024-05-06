@@ -1,9 +1,9 @@
 'use client';
 
 
-
 import {useSearchParams} from "next/navigation";
 import {UseFormReturn} from "react-hook-form";
+import {IPermissions} from "@/types/roles";
 
 export const useQueryString = () => {
     const searchParams = useSearchParams();
@@ -22,9 +22,79 @@ export function toSentenceCase(str: string) {
 }
 
 
-
 export const setValuesOfForm = (data: any, form: UseFormReturn<any>) => {
     Object.keys(data).forEach(key => {
         form.setValue(key, data[key]);
     });
 };
+
+export function convertToVietnamTime(minutes: number, mode: "single" | "string", showHour: boolean = true):any {
+    let hours: number = Math.floor(minutes / 60);
+    minutes %= 60;
+    if (minutes <= 60 && mode === "single") return hours + minutes / 60;
+    if (hours >= 24) hours -= 24;
+    if (mode === "string" && showHour) {
+        if (hours == 0) {
+            return `${minutes}m`;
+        }
+        return `${hours}h${minutes}m`;
+    } else {
+        return {hours, minutes};
+    }
+}
+
+
+interface GroupedData {
+    [key: string]: IPermissions[];
+}
+
+interface ResponseItem {
+    [key: string]: IPermissions[];
+}
+
+export function groupByPermissions(data: IPermissions[]): ResponseItem[] {
+    const response: ResponseItem[] = [];
+    const groupedData: GroupedData = {};
+    if (!data) return [];
+
+    data.forEach((item) => {
+        const permissionName = item.name.split('.')[1];
+        const perName = item.name.split('.')[2];
+        if (!groupedData[permissionName]) {// @ts-ignore
+            groupedData[permissionName] = new Set<string>();
+        }// @ts-ignore
+        groupedData[permissionName].add(perName);
+    });
+
+    const allPerNames = new Set<string>();
+    for (const permissionName in groupedData) {
+        for (const perName of groupedData[permissionName]) {
+            // @ts-ignore
+            allPerNames.add(perName);
+        }
+    }
+
+    const sortedPerNames = Array.from(allPerNames);
+
+    for (const permissionName in groupedData) {
+        const permissionArray: (string | null)[] = [];
+        for (const perName of sortedPerNames) {// @ts-ignore
+            permissionArray.push(groupedData[permissionName].has(perName) ? perName : null);
+        }
+        const permissionItemArray = permissionArray.map((perName) => {
+            const foundItem = data.find((item) => item.name.split('.')[1] === permissionName && item.name.split('.')[2] === perName);
+            const newItem = {...foundItem, indentity:permissionName}
+            return foundItem ? newItem : null;
+        });// @ts-ignore
+        // @ts-ignore
+        const permissionObject: ResponseItem = {
+            // @ts-ignore
+            [permissionName]: permissionItemArray ,
+
+        };
+        response.push(permissionObject);
+    }
+
+    return response;
+}
+

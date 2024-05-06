@@ -3,22 +3,23 @@ import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} f
 import {Shell} from "@/components/shell";
 import {ServicesShell} from "@/components/shells/services-shell";
 import {getListServices} from "@/api-requests/services";
+import {RolesShell} from "@/components/shells/roles-shell";
+import {getListRoles} from "@/api-requests/roles";
 
-export default async function ServicePage() {
-    const result = await getListServices();
+export default async function RolesPage() {
+    const data = await getListRoles()
 
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated >
                 <PageHeader>
-                    <PageHeaderHeading size="sm">Services</PageHeaderHeading>
+                    <PageHeaderHeading size="sm">Roles</PageHeaderHeading>
                     <PageHeaderDescription size="sm">
-                        Manage your services
+                        Manage your roles
                     </PageHeaderDescription>
                 </PageHeader>
-
             </PageHeaderShell>
-             {result.status == 200 && <ServicesShell data={result?.payload?.data} pets={result?.payload?.pets}/>}
+            <RolesShell data={data} />
         </Shell>
     )
 }

@@ -31,11 +31,12 @@ import {IService} from "@/types/service";
 import {IPets} from "@/types/pets";
 import {AlertDialogC} from "@/components/alert-dialog-c";
 import {deleteService} from "@/api-requests/services";
+import {convertToVietnamTime} from "@/lib/helpers";
 
 interface ServicesShellProps {
     data: IService[],
     pets: IPets[],
-    status: boolean
+    status?: boolean
 }
 
 export function ServicesShell(props: ServicesShellProps) {
@@ -104,6 +105,16 @@ export function ServicesShell(props: ServicesShellProps) {
                 },
             },
             {
+                accessorKey: "minTimeToDo",
+                header: ({column}) => (
+                    <DataTableColumnHeader column={column} title="Time "/>
+                ),
+                cell: ({row}) => {
+                    const newTime = convertToVietnamTime(row.original.minTimeToDo, "string");
+                    return <p>{newTime}</p>
+                },
+            },
+            {
                 accessorKey: "status",
                 header: ({column}) => {
                     return (
@@ -138,7 +149,7 @@ export function ServicesShell(props: ServicesShellProps) {
                         </Button>
 
                         {props?.pets && props?.pets?.length >= 7 ? (
-                            <>
+                            <div>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <Button
@@ -158,9 +169,9 @@ export function ServicesShell(props: ServicesShellProps) {
                                                     //@ts-ignore
                                                     const PetIcons = i?.icon ? Icons[i?.icon] : PawPrint
                                                     return (
-                                                        <React.Fragment key={`${i?._id}.pets.${j}.${i?.updatedAt}`}>
+                                                        <div key={`${i?._id}.pets.${j}.${i?.updatedAt}`} id={`${i?._id}.pets.${j}.${i?.updatedAt}`}  >
                                                             <TooltipProvider
-                                                                key={`${i?._id}.pets.${j}.${i?.updatedAt}`}>
+                                                                key={`${i?._id}.pets.${j}-123.${i?.updatedAt}`}>
                                                                 <Tooltip>
                                                                     <TooltipTrigger asChild>
                                                                         <Button variant="link" onClick={() => {
@@ -172,10 +183,10 @@ export function ServicesShell(props: ServicesShellProps) {
                                                                                 })
                                                                             }
                                                                         }}>
-                                                                    <span className="flex items-center gap-2">
-                                                                        <PetIcons/>
-                                                                        {i?.name}
-                                                                    </span>
+                                                                            <span className="flex items-center gap-2">
+                                                                                <PetIcons/>
+                                                                                {i?.name}
+                                                                            </span>
                                                                         </Button>
                                                                     </TooltipTrigger>
                                                                     <TooltipContent>
@@ -185,7 +196,7 @@ export function ServicesShell(props: ServicesShellProps) {
                                                                 </Tooltip>
                                                             </TooltipProvider>
                                                             <Separator/>
-                                                        </React.Fragment>
+                                                        </div>
 
                                                     )
                                                 })}
@@ -195,15 +206,15 @@ export function ServicesShell(props: ServicesShellProps) {
                                     </DropdownMenuContent>
                                 </DropdownMenu>
 
-                            </>
+                            </div>
                         ) : (
                             <>
                                 {props?.pets && props?.pets?.map((i: any, j: any) => {
                                     //@ts-ignore
                                     const PetIcons = i?.icon ? Icons[i?.icon] : PawPrint
                                     return (
-                                        <React.Fragment key={`${i?._id}.animal.${j}.${i?.createdAt}`}>
-                                            <TooltipProvider key={`${i?._id}.animal.${j}.${i?.createdAt}`}>
+                                        <div key={`${i?._id}.animal.special.${j}.${i?.createdAt}`}>
+                                            <TooltipProvider key={`${i?._id}.animal.${j}.${i?.createdAt}.special`}>
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
                                                         <Button variant="link" onClick={() => {
@@ -211,10 +222,10 @@ export function ServicesShell(props: ServicesShellProps) {
                                                                 router.push(`${pathname}/pets/${i?._id}/${row.original.id}`)
                                                             })
                                                         }}>
-                                                    <span className="flex items-center gap-2">
-                                                        <PetIcons/>
-                                                        {i?.name}
-                                                    </span>
+                                                            <span className="flex items-center gap-2">
+                                                                <PetIcons/>
+                                                                {i?.name}
+                                                            </span>
                                                         </Button>
                                                     </TooltipTrigger>
                                                     <TooltipContent>
@@ -222,7 +233,7 @@ export function ServicesShell(props: ServicesShellProps) {
                                                     </TooltipContent>
                                                 </Tooltip>
                                             </TooltipProvider>
-                                        </React.Fragment>
+                                        </div>
                                     )
                                 })}
 
@@ -251,7 +262,6 @@ export function ServicesShell(props: ServicesShellProps) {
     };
 
 
-
     return (
 
         <>
@@ -275,7 +285,7 @@ export function ServicesShell(props: ServicesShellProps) {
                     open={openDialog}
                     setOpen={setOpenDialog}
                     handleOk={() => void deleteServiceFnc()}
-                    title={`Are you absolutely sure delete ${deleteItem?.name}`}
+                    title={`delete service:${deleteItem?.name}`}
                 />
             )}
 

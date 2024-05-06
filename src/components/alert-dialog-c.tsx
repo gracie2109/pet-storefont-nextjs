@@ -7,8 +7,7 @@ import {
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+    AlertDialogTitle
 } from "@/components/ui/alert-dialog"
 import React from "react";
 
@@ -31,8 +30,7 @@ export function AlertDialogC({open, okText, subtitle, title, handleOk, setOpen}:
                     </AlertDialogTitle>
                     <AlertDialogDescription>
                         {subtitle ? subtitle :
-                            " This action cannot be undone. This will permanently delete your account\n" +
-                            "and remove your data from our servers."}
+                            " This action cannot be undone. This will permanently delete data from our servers."}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

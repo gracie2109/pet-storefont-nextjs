@@ -1,7 +1,7 @@
-import type {Metadata} from "next";
-import {Lexend} from "next/font/google";
-import {ThemeProvider} from "@/components/theme-provider"
-import {Toaster} from "react-hot-toast";
+import type { Metadata } from "next";
+import { Lexend } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "react-hot-toast";
 import * as React from "react";
 import "./globals.css";
 
@@ -18,26 +18,26 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
 
     return (
-        <html lang="en">
-        <body className={lexend.className}>
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-        >
-          <React.Fragment>
-              {children}
-              <Toaster />
-          </React.Fragment>
-        </ThemeProvider>
-        </body>
+        <html lang="en" suppressHydrationWarning>
+            <body className={lexend.className}>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <React.Fragment>
+                        {children}
+                        <Toaster />
+                    </React.Fragment>
+                </ThemeProvider>
+            </body>
         </html>
     );
 }

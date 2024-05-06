@@ -1,5 +1,5 @@
-import {Button} from "@/components/ui/button";
-import {Icons} from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
 
 export function OAuthSignIn() {
     return (
@@ -7,7 +7,7 @@ export function OAuthSignIn() {
             <Button variant="outline" className="">
                 <Icons.google_color className={"w-4 h-4 mr-2"} />Google
             </Button>
-            <Button  variant="outline">
+            <Button variant="outline">
                 <Icons.facebook_color className={"w-4 h-4 mr-2"} />Google
             </Button>
 

@@ -6,6 +6,7 @@ import * as React from "react";
 import {ReloadIcon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button";
 import {Switch} from "@/components/ui/switch";
+import {convertToVietnamTime} from "@/lib/helpers";
 
 interface ServiceFormProps {
     submitHandler: (value: any) => void,
@@ -53,11 +54,10 @@ export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormPro
                         <FormItem>
                             <FormLabel>Time to do</FormLabel>
                             <FormControl>
-                                <Input placeholder="desc" {...field} />
+                                <Input  type="number" placeholder="desc" {...field} />
                             </FormControl>
                             <FormDescription>Enter min time to do this service <br/>
-                                exmp: 45m
-
+                                {convertToVietnamTime(form.watch("minTimeToDo"), "string")}
                             </FormDescription>
                             <FormMessage/>
                         </FormItem>
