@@ -12,7 +12,7 @@ import {DataTableRaw} from "@/components/data-tables";
 import {Button} from "@/components/ui/button";
 import {toast} from "react-hot-toast";
 
-import {Icons} from "@/components/icons";
+import {Icons, PetIcons} from "@/components/icons";
 import {
     Tooltip,
     TooltipContent,
@@ -167,9 +167,10 @@ export function ServicesShell(props: ServicesShellProps) {
                                                     pets</h4>
                                                 {props?.pets && props?.pets?.map((i: any, j: any) => {
                                                     //@ts-ignore
-                                                    const PetIcons = i?.icon ? Icons[i?.icon] : PawPrint
+                                                    const PetIconsC = i?.icon ? PetIcons[i?.icon] : PawPrint
                                                     return (
-                                                        <div key={`${i?._id}.pets.${j}.${i?.updatedAt}`} id={`${i?._id}.pets.${j}.${i?.updatedAt}`}  >
+                                                        <div key={`${i?._id}.pets.${j}.${i?.updatedAt}`}
+                                                             id={`${i?._id}.pets.${j}.${i?.updatedAt}`}>
                                                             <TooltipProvider
                                                                 key={`${i?._id}.pets.${j}-123.${i?.updatedAt}`}>
                                                                 <Tooltip>
@@ -184,7 +185,7 @@ export function ServicesShell(props: ServicesShellProps) {
                                                                             }
                                                                         }}>
                                                                             <span className="flex items-center gap-2">
-                                                                                <PetIcons/>
+                                                                                <PetIconsC/>
                                                                                 {i?.name}
                                                                             </span>
                                                                         </Button>
@@ -211,7 +212,7 @@ export function ServicesShell(props: ServicesShellProps) {
                             <>
                                 {props?.pets && props?.pets?.map((i: any, j: any) => {
                                     //@ts-ignore
-                                    const PetIcons = i?.icon ? Icons[i?.icon] : PawPrint
+                                    const PetIconsC = i?.icon ? PetIcons[i?.icon] : PawPrint
                                     return (
                                         <div key={`${i?._id}.animal.special.${j}.${i?.createdAt}`}>
                                             <TooltipProvider key={`${i?._id}.animal.${j}.${i?.createdAt}.special`}>
@@ -223,7 +224,7 @@ export function ServicesShell(props: ServicesShellProps) {
                                                             })
                                                         }}>
                                                             <span className="flex items-center gap-2">
-                                                                <PetIcons/>
+                                                                <PetIconsC/>
                                                                 {i?.name}
                                                             </span>
                                                         </Button>

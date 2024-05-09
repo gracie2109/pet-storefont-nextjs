@@ -10,6 +10,7 @@ export const endPoint = {
     getListRoles:"roles/get-roles",
     getDetailRole:"roles/get-role-detail",
     deleteRole:"roles/delete-role",
+    createRole: "roles/createRole",
 
     // permissions //
     getListPermissions:"permissions/get-permissions",

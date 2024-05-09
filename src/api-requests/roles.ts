@@ -40,3 +40,11 @@ export const deleteRole = async (input: string) => {
 }
 
 
+export const createNewRole = async(input:Pick<IRoles, 'name' | 'permissions'>) => {
+    if(!input) return;
+    const data = await http.post(endPoint.createRole, input);
+    if(data.status === 200){
+        return revalidateTag('roles')
+    }
+}
+

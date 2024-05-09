@@ -3,7 +3,7 @@
 
 import {useSearchParams} from "next/navigation";
 import {UseFormReturn} from "react-hook-form";
-import {IPermissions} from "@/types/roles";
+import {IPermissionFetchResponse, IPermissions} from "@/types/roles";
 
 export const useQueryString = () => {
     const searchParams = useSearchParams();
@@ -28,7 +28,7 @@ export const setValuesOfForm = (data: any, form: UseFormReturn<any>) => {
     });
 };
 
-export function convertToVietnamTime(minutes: number, mode: "single" | "string", showHour: boolean = true):any {
+export function convertToVietnamTime(minutes: number, mode: "single" | "string", showHour: boolean = true): any {
     let hours: number = Math.floor(minutes / 60);
     minutes %= 60;
     if (minutes <= 60 && mode === "single") return hours + minutes / 60;
@@ -83,13 +83,13 @@ export function groupByPermissions(data: IPermissions[]): ResponseItem[] {
         }
         const permissionItemArray = permissionArray.map((perName) => {
             const foundItem = data.find((item) => item.name.split('.')[1] === permissionName && item.name.split('.')[2] === perName);
-            const newItem = {...foundItem, indentity:permissionName}
+            const newItem = {...foundItem, indentity: permissionName}
             return foundItem ? newItem : null;
         });// @ts-ignore
         // @ts-ignore
         const permissionObject: ResponseItem = {
             // @ts-ignore
-            [permissionName]: permissionItemArray ,
+            [permissionName]: permissionItemArray,
 
         };
         response.push(permissionObject);
@@ -98,3 +98,23 @@ export function groupByPermissions(data: IPermissions[]): ResponseItem[] {
     return response;
 }
 
+export const checkIdPermissionBelongWith = (ids: string[]) => {
+    let response: any[] = [];
+    for (const i of ids) {
+        const element = document.querySelector(`button[data-id="${i}"]`) as HTMLButtonElement;
+        const info = element.getAttribute('data-id');
+
+        const res = {
+            pername: element.getAttribute('data-pername'),
+            id: i,
+            name: element.getAttribute('data-name')
+        };
+        response.push(res);
+    }
+    const result = Object.groupBy(response, ({pername}: any) => pername);
+    const methods = Object.keys(result);
+
+    return methods
+
+
+}

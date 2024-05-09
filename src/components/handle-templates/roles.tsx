@@ -1,16 +1,15 @@
 'use client';
 
-import * as  React from "react"
-import {ServiceForm} from "@/components/forms/service-form";
+import * as  React from "react";
 import {useForm} from "react-hook-form";
-import {useState} from "react";
 import {roleInit, roleInfer, roleSchema} from "@/validations/roles"
 import {zodResolver} from "@hookform/resolvers/zod";
-
 import {setValuesOfForm} from "@/lib/helpers";
 import {RoleForm} from "@/components/forms/role-form";
 import {IPermissionFetchResponse} from "@/types/roles";
-import {serviceSchema} from "@/validations/services";
+import toast from "react-hot-toast";
+import {createNewRole} from "@/api-requests/roles"
+
 
 interface ServiceHandleTemplateProps {
     params: string,
@@ -19,15 +18,31 @@ interface ServiceHandleTemplateProps {
 }
 
 export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTemplateProps) {
-
+    const [send, setSend] = React.useState<boolean>(false);
     const form = useForm({
         defaultValues: roleInit,
         resolver: zodResolver(roleSchema),
     });
 
 
-    const handleSubmit = async (values: any) => {
-        console.log("handleSubmit", values)
+    const handleSubmit =  (values: any) => {
+        console.log("handleSubmit", values);
+        if(params == "create"){
+            toast.promise((createNewRole(values)), {
+                loading: "Creating...",
+                error:(err:any) => {
+                    console.log("err", err);
+                    setSend(true)
+                    return "Creat role fail!"
+                },
+                success: (data: any) => {
+                    console.log("success", data);
+                    setSend(true)
+                    return "Create role success!"
+                }
+            })
+        }
+
     }
 
     React.useEffect(() => {
@@ -37,12 +52,18 @@ export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTem
     }, [data, params])
 
 
+
+
+
+
     return (
         <RoleForm
             submitHandler={handleSubmit}
             form={form}
             mode={params}
             permissions={permissions}
+            submitStt={send}
+
         />
     )
 }

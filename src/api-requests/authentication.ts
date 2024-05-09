@@ -7,7 +7,6 @@ import {toast} from "react-hot-toast"
 
 const baseUrl = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_PRODUCTIONS : process.env.NEXT_PUBLIC_API_DEVELOPMENT;
 
-
 export async function loginHandler(payload: z.infer<typeof loginSchema>) {
 
     const response = await fetch(`${baseUrl}auth/login`, {

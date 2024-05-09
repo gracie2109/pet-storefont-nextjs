@@ -1,12 +1,12 @@
 "use client"
 
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { Columns4 } from 'lucide-react';
+import {DropdownMenuTrigger} from "@radix-ui/react-dropdown-menu"
+import {Columns4} from 'lucide-react';
 
-import { type Table } from "@tanstack/react-table"
+import {type Table} from "@tanstack/react-table"
 
-import { toSentenceCase } from "@/lib/helpers"
-import { Button } from "@/components/ui/button"
+import {toSentenceCase} from "@/lib/helpers"
+import {Button} from "@/components/ui/button"
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -31,11 +31,11 @@ export function DataTableViewOptions<TData>({
                     size="sm"
                     className="ml-auto hidden h-8 lg:flex"
                 >
-                    <Columns4 className="w-4 h-4" />
+                    <Columns4 className="w-4 h-4"/>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[150px]">
-                <DropdownMenuSeparator />
+                <DropdownMenuSeparator/>
                 {table
                     .getAllColumns()
                     .filter(

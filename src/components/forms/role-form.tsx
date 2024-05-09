@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import * as React from "react";
 import {Checkbox} from "@/components/ui/checkbox"
 import {ReloadIcon} from "@radix-ui/react-icons";
-import {groupByPermissions} from "@/lib/helpers";
+import {checkIdPermissionBelongWith, groupByPermissions} from "@/lib/helpers";
 import {
     Table,
     TableBody,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table"
 import {CheckedState} from "@radix-ui/react-menu";
 import {UseFormReturn} from "react-hook-form";
+import {useMounted} from "@/hooks/use-mounted";
 
 type CheckboxAll = "indeterminate" | true | false;
 
@@ -25,7 +26,8 @@ interface RoleFormProps {
 
 }
 
-export function RoleForm({form, submitHandler, permissions, status, createRoleStt, reset}: any) {
+
+export function RoleForm({form, submitHandler, permissions, status, createRoleStt, reset, submitStt, mode}: any) {
     const convertPermissions = React.useMemo(() => {
         return groupByPermissions(permissions?.data)
     }, [permissions?.data])
@@ -38,7 +40,7 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
     const [chooseMethod, setChooseMethod] = React.useState<any[]>([]);
     const [checkAllDataOfMethod, setCheckAllDataOfMethod] = React.useState(false)
     const [singleCheck, setSingleCheck] = React.useState<any[]>([])
-
+    const mounted = useMounted();
 
     const memoFormPermission = React.useMemo(() => {
         return form.watch("permissions")
@@ -98,10 +100,13 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
         if (!selectAll) {
             const allPermissionIds = permissions && permissions?.data?.map((permission: any) => permission._id);
             form.setValue("permissions", allPermissionIds);
+            setSingleCheck([]);
+
         } else {
             form.setValue("permissions", []);
         }
         setSelectAll(!selectAll);
+        setSingleCheck([]);
     };
 
     React.useEffect(() => {
@@ -133,20 +138,30 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
             const filterData = singleCheck.filter((i) => i.value !== _id);
             setSingleCheck(filterData)
         }
+
+
     }
 
 
     React.useEffect(() => {
-        if (reset) {
+        if (submitStt) {
             setSingleCheck([]);
             setCheckAllDataOfMethod(false);
             setChooseMethod([]);
             setSelectAll(false);
             setIsIndeterminate(false);
             form.reset();
-
         }
-    }, [reset])
+    }, [submitStt])
+
+
+    // React.useEffect(() => {
+    //     if (mode !== "create" && mounted) {
+    //         const res = checkIdPermissionBelongWith(memoFormPermission);
+    //         setChooseMethod(res); j
+    //     }
+    //
+    // }, [mode, mounted, selectAll])
 
 
     return (
@@ -205,6 +220,7 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
                                                                 {i}
                                                                 <Checkbox
                                                                     id={i}
+                                                                    data-checkselectallper={i}
                                                                     checked={statusForSpecificName}
                                                                     onCheckedChange={(e) => {
                                                                         const existMethod = chooseMethod.find((m) => m === i);

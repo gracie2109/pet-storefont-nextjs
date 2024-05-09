@@ -13,6 +13,8 @@ const request = async <Response>(
             ? process.env.NEXT_PUBLIC_API_DEVELOPMENT
             : options.baseUrl
 
+    // const baseUrl = process.env.NODE_ENV === "production" ? process.env.NEXT_PUBLIC_API_PRODUCTIONS : process.env.NEXT_PUBLIC_API_DEVELOPMENT;
+    // console.log("APP RUNNING IN ENVIRONMENT", process.env.NODE_ENV, baseUrl);
     const fullUrl = `${baseUrl}${url}`
     const res = await fetch(fullUrl, {
         ...options,

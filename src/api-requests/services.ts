@@ -5,9 +5,9 @@ import {endPoint} from "@/configs/endpoint";
 import {revalidateTag} from "next/cache";
 import {IServiceFetchResponse} from "@/types/service";
 
-export const getListServices = async ():Promise<IServiceFetchResponse> => {
-    const  result = await http.get(endPoint.getListServices, {
-        next: {tags: ['services'], },
+export const getListServices = async (): Promise<IServiceFetchResponse> => {
+    const result = await http.get(endPoint.getListServices, {
+        next: {tags: ['services'],},
     });
     return result
 }

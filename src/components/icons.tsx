@@ -1,3 +1,5 @@
+import React from "react";
+
 type IconProps = React.HTMLAttributes<SVGElement>
 import {
     PieChart,
