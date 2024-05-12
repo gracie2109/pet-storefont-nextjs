@@ -2,6 +2,7 @@ import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} f
 import {Shell} from "@/components/shell";
 import {ServicesShell} from "@/components/shells/services-shell";
 import {getListServices} from "@/api-requests/services";
+import Error from "next/error";
 
 export default async function ServicePageAdmin() {
     const result = await getListServices();
@@ -17,7 +18,8 @@ export default async function ServicePageAdmin() {
                 </PageHeader>
 
             </PageHeaderShell>
-             <ServicesShell data={result?.payload?.data} pets={result?.payload?.pets}/>
+
+             <ServicesShell status={result.status} data={result?.payload?.data} pets={result?.payload?.pets}/>
         </Shell>
     )
 }

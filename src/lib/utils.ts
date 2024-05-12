@@ -6,3 +6,6 @@ export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
+const handleError = (err: Error) => {
+    console.log(err)
+}

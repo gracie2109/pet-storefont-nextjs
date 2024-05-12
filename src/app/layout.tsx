@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
 
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en" suppressHydrationWarning suppressContentEditableWarning>
             <body className={lexend.className}>
                 <ThemeProvider
                     attribute="class"

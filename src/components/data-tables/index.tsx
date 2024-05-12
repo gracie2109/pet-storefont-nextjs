@@ -322,9 +322,11 @@ export function DataTableRaw<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-            <div className="w-full overflow-hidden">
+            <div className="w-full overflow-hidden flex items-center">
                 <DataTablePagination table={table} showRowPerPage={false}/>
+                <p></p>
             </div>
+
         </div>
     )
 }

@@ -6,6 +6,7 @@ import * as React from "react";
 import {getDetailService} from "@/api-requests/services";
 import {ResultPageNotification} from "@/components/result-page-notification";
 import {Button} from "@/components/ui/button";
+import {BackLink} from "@/components/back-link";
 
 
 interface IParams {
@@ -26,7 +27,7 @@ export default async function ServiceHandlePage({params}: IParams) {
                         {params.id === "create" ? "Create new service" : "Edit service"}
                     </PageHeaderDescription>
                 </PageHeader>
-                <Link href="/admin/services" className="hover:text-gray-400">Back</Link>
+                <BackLink href="/admin/services"/>
             </PageHeaderShell>
             {params.id == "create" ?
                 <ServiceHandleTemplate params={params.id.toString()}/> : (

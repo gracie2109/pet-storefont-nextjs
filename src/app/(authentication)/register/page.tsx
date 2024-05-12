@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 
 import { Shell } from "@/components/shell";
 import Link from "next/link";
-import { OAuthSignIn } from "@/components/ OAuthSignIn";
+import { OAuthSignIn } from "@/components/OAuthSignIn";
 
 export default function RegisterPage() {
 

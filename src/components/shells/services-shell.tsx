@@ -32,11 +32,12 @@ import {IPets} from "@/types/pets";
 import {AlertDialogC} from "@/components/alert-dialog-c";
 import {deleteService} from "@/api-requests/services";
 import {convertToVietnamTime} from "@/lib/helpers";
+import Error from "next/error";
 
 interface ServicesShellProps {
     data: IService[],
     pets: IPets[],
-    status?: boolean
+    status?: any
 }
 
 export function ServicesShell(props: ServicesShellProps) {
@@ -46,7 +47,6 @@ export function ServicesShell(props: ServicesShellProps) {
     const [deleteItem, setDeleteItem] = React.useState<any>(null);
     const pathname = usePathname();
     const router = useRouter();
-
 
     const columns = React.useMemo<ColumnDef<any, unknown>[]>(
         () => [
@@ -180,7 +180,7 @@ export function ServicesShell(props: ServicesShellProps) {
                                                                                 toast.error("Service is blocking")
                                                                             } else {
                                                                                 startTransition(() => {
-                                                                                    router.push(`${pathname}/pets/${i?._id}/${row.original.id}`)
+                                                                                    router.push(`/admin/pets/${i?._id}/${row.original.id}?origin=false`)
                                                                                 })
                                                                             }
                                                                         }}>
@@ -220,7 +220,7 @@ export function ServicesShell(props: ServicesShellProps) {
                                                     <TooltipTrigger asChild>
                                                         <Button variant="link" onClick={() => {
                                                             startTransition(() => {
-                                                                router.push(`${pathname}/pets/${i?._id}/${row.original.id}`)
+                                                                router.push(`/admin/pets/${i?._id}/${row.original.id}?origin=false`)
                                                             })
                                                         }}>
                                                             <span className="flex items-center gap-2">
@@ -262,12 +262,8 @@ export function ServicesShell(props: ServicesShellProps) {
         });
     };
 
-
     return (
-
-        <>
-
-
+        <React.Fragment>
             <DataTableRaw
                 columns={columns}
                 data={props.data}
@@ -290,6 +286,6 @@ export function ServicesShell(props: ServicesShellProps) {
                 />
             )}
 
-        </>
+        </React.Fragment>
     )
 }

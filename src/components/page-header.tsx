@@ -5,6 +5,7 @@ import {cn} from "@/lib/utils"
 import {Separator} from "@/components/ui/separator"
 import {shellVariants} from "@/components/shell";
 import {any} from "prop-types";
+import React from "react";
 
 interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement>,  VariantProps<typeof pageHeaderShellVariants> {
     as?: React.ElementType

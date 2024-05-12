@@ -3,7 +3,7 @@ import { AuthForm } from "@/components/forms/auth-form";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shell } from "@/components/shell";
 import Link from "next/link";
-import { OAuthSignIn } from "@/components/ OAuthSignIn";
+import { OAuthSignIn } from "@/components/OAuthSignIn";
 import { useQueryString } from "@/lib/helpers";
 import React from "react";
 import { ResultPageNotification } from "@/components/result-page-notification";

@@ -49,3 +49,11 @@
         --ring: 20.5 90.2% 48.2%;
     }
 }
+
+.tooltip_tw {
+    @apply invisible absolute;
+}
+
+.has-tooltip_tw:hover .tooltip_tw {
+    @apply visible z-50;
+}

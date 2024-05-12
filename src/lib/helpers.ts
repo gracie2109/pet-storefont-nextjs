@@ -118,3 +118,50 @@ export const checkIdPermissionBelongWith = (ids: string[]) => {
 
 
 }
+
+
+export function formatPrice(
+    price: number | string,
+    options: {
+        currency?: "USD" | "EUR" | "GBP" | "BDT" | "VND"
+        notation?: Intl.NumberFormatOptions["notation"]
+    } = {}
+) {
+    const {currency = "VND", notation = "standard"} = options
+    if (price == "undefined") return
+    return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency,
+        notation,
+    }).format(Number(price))
+}
+
+interface InputObject {
+    [key: string]: any;
+}
+
+
+export function convertSettingPriceOfServiceData(inputObj: InputObject, raw?: any[]) {
+    const outputArray: any[] = [];
+    for (const key in inputObj) {
+        const value = isNaN(inputObj[key]) ? "undefined" : Number(inputObj[key]);
+        const rawObject = raw && raw?.find(obj => obj.weightId._id === key);
+        if (rawObject) {
+            const obj: any = {
+                weightId: key,
+                price: value,
+                id: rawObject.id
+            };
+            outputArray.push(obj);
+        } else {
+            const obj: any = {
+                weightId: key,
+                price: value,
+            };
+            outputArray.push(obj);
+        }
+    }
+    return outputArray;
+}
+
+

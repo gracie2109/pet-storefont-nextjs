@@ -4,10 +4,17 @@ import http from "@/configs/http"
 import {endPoint} from "@/configs/endpoint";
 import {revalidateTag} from "next/cache";
 import {IServiceFetchResponse} from "@/types/service";
+import Error from 'next/error';
+
+
 
 export const getListServices = async (): Promise<IServiceFetchResponse> => {
     const result = await http.get(endPoint.getListServices, {
-        next: {tags: ['services'],},
+        next: {
+            tags: ['services'],
+            revalidate: 3600
+        },
+
     });
     return result
 }
@@ -18,6 +25,8 @@ export const createService = async (input: any) => {
     if (data.status === 200) {
         return revalidateTag('services')
     }
+
+    console.log("createServicecreateServicecreateServicecreateService", data)
     return data
 }
 

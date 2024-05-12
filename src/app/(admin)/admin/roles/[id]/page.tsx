@@ -6,6 +6,7 @@ import {ResultPageNotification} from "@/components/result-page-notification";
 import {Button} from "@/components/ui/button";
 import {getDetailRoles, getPermissions} from "@/api-requests/roles";
 import {RoleHandleTemplate} from "@/components/handle-templates/roles";
+import {BackLink} from "@/components/back-link";
 
 
 interface IParams {
@@ -28,7 +29,7 @@ export default async function RoleHandlePage({params}: IParams) {
                         {params.id === "create" ? "Create new role" : "Edit role"}
                     </PageHeaderDescription>
                 </PageHeader>
-                <Link href="/admin/roles" className="hover:text-gray-400">Back</Link>
+               <BackLink href="/admin/roles" />
             </PageHeaderShell>
             {params.id == "create" ?
                 <RoleHandleTemplate params={params.id.toString()} permissions={permissions}/> : (
