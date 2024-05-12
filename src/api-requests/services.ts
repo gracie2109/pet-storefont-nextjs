@@ -12,9 +12,8 @@ export const getListServices = async (): Promise<IServiceFetchResponse> => {
     const result = await http.get(endPoint.getListServices, {
         next: {
             tags: ['services'],
-            revalidate: 3600
+            revalidate: 360
         },
-
     });
     return result
 }
@@ -25,8 +24,6 @@ export const createService = async (input: any) => {
     if (data.status === 200) {
         return revalidateTag('services')
     }
-
-    console.log("createServicecreateServicecreateServicecreateService", data)
     return data
 }
 

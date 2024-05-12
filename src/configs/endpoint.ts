@@ -27,7 +27,7 @@ export const endPoint = {
     updatePet: "pets/edit-pets",
 
     getListPetWeight: "weight/get-all-weight",
-
+    assignPetWeights: "weight/assign-weights",
 
 
     //service and price

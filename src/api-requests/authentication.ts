@@ -17,7 +17,7 @@ export async function loginHandler(payload: z.infer<typeof loginSchema>) {
         cache: "no-store"
     });
     const data = await response.json();
-    console.log("data", data)
+
     if (data.status === 200) {
         if (!data.user.isVerified) {
             return redirect("/")

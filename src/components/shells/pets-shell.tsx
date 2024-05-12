@@ -169,7 +169,6 @@ export function PetsShell(props: Props) {
         resolver: zodResolver(mode == "create" ? petSchema : petEditSchema),
     });
 
-
     const handleSubmit = (value: any) => {
         if (mode == "create") {
             toast.promise((createNewPet(value)), {
@@ -180,7 +179,7 @@ export function PetsShell(props: Props) {
                     return mess
                 },
                 success: (res: any) => {
-                    console.log("res", res);
+
                     form.reset();
                     setOpenModal(false);
                     return "Creating success"
@@ -202,7 +201,6 @@ export function PetsShell(props: Props) {
             })
         }
     }
-
     React.useEffect(() => {
         if (!openModal) {
             form.reset();
@@ -219,10 +217,7 @@ export function PetsShell(props: Props) {
     }, [handleItem, mode, mouted])
 
     return (
-
-        <>
-
-
+        <React.Fragment>
             <DataTableRaw
                 columns={columns}
                 data={props.data}
@@ -233,7 +228,7 @@ export function PetsShell(props: Props) {
                 }}
                 searchableColumns={[
                     {
-                        title: "role name",
+                        title: "pet name",
                         id: "name"
                     }
                 ]}
@@ -261,6 +256,6 @@ export function PetsShell(props: Props) {
                     />
                 </DialogC>
             )}
-        </>
+        </React.Fragment>
     )
 }

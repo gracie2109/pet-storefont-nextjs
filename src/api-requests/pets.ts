@@ -8,8 +8,7 @@ import {router} from "next/client";
 
 export const getListPets = async () => {
     const data = await http.get(endPoint.getListPet, {
-        next: {tags: ['pets'], revalidate: 3600},
-
+        next: {tags: ['pets'], revalidate: 360}
     });
     return data
 }
@@ -68,7 +67,7 @@ export const getListPetWeight = async () => {
 }
 
 export const setPriceForService = async (input: any) => {
-    const data = await http.post(endPoint.setServicePriceForPet, input,{
+    const data = await http.post(endPoint.setServicePriceForPet, input, {
         cache: 'no-store'
     });
     if (data.status == 200) {
@@ -77,12 +76,28 @@ export const setPriceForService = async (input: any) => {
     return data
 }
 
-export const updatePrice = async (input: any, petId:string) => {
-    const data = await http.patch(endPoint.updatePriceOfService, input,{
+export const updatePrice = async (input: any, petId: string) => {
+    const data = await http.patch(endPoint.updatePriceOfService, input, {
         cache: 'no-store'
     });
-    if (data.status == 200){
+    if (data.status == 200) {
         return revalidateTag(`pets/${petId}`)
     }
     return data
+}
+
+
+export const getPetWeights = async () => {
+    const data = await http.get(endPoint.getListPetWeight, {
+        next: {tags: ['pets-weights'], revalidate: 300},
+    });
+    return data
+}
+
+
+export const assignWeights = async() => {
+    const data = await http.get(endPoint.assignPetWeights);
+    if (data.status == 200) {
+        return revalidateTag(`pets-weights`)
+    }
 }

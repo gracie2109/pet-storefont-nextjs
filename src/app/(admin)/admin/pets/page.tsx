@@ -4,6 +4,10 @@ import {getListPets} from "@/api-requests/pets";
 import {ResultPageNotification} from "@/components/result-page-notification";
 import * as React from "react";
 import {PetsShell} from "@/components/shells/pets-shell";
+import Link from "next/link";
+import {PlusCircle, Weight} from 'lucide-react';
+import clsx from "clsx";
+import {buttonVariants} from "@/components/ui/button";
 
 export default async function PetPages() {
     const data = await getListPets();
@@ -17,6 +21,20 @@ export default async function PetPages() {
                         Manage your pets
                     </PageHeaderDescription>
                 </PageHeader>
+                <Link href="/admin/pets/weights">
+                    <div
+                        className={clsx(" max-w-30",
+                            buttonVariants({
+                                variant: "default",
+                                size: "sm",
+                                className: "h-8",
+                            })
+                        )}
+                    >
+                        <Weight className="mr-2 h-4 w-4" aria-hidden="true"/>
+                        Pet weights
+                    </div>
+                </Link>
             </PageHeaderShell>
 
             {data.status == 200 ?
