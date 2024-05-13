@@ -9,3 +9,4 @@ export function cn(...inputs: ClassValue[]) {
 const handleError = (err: Error) => {
     console.log(err)
 }
+

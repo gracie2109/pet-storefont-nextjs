@@ -33,5 +33,10 @@ export const endPoint = {
     //service and price
     setServicePriceForPet:"services/set-service-price-of-pet",
     serviceOfPet:"services/get-service-of-pet",
-    updatePriceOfService:"/services/update-service-of-pet"
+    updatePriceOfService:"/services/update-service-of-pet",
+
+
+    //news
+    createNewPost:"news/new-post",
+    getListPost:"news/get-all",
 }

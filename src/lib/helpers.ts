@@ -4,6 +4,7 @@
 import {useSearchParams} from "next/navigation";
 import {UseFormReturn} from "react-hook-form";
 import {IPermissionFetchResponse, IPermissions} from "@/types/roles";
+import {SelectOptions} from "@/types";
 
 export const useQueryString = () => {
     const searchParams = useSearchParams();
@@ -162,6 +163,18 @@ export function convertSettingPriceOfServiceData(inputObj: InputObject, raw?: an
         }
     }
     return outputArray;
+}
+
+export function modifySelectValue(input: string[]): SelectOptions[] {
+    const response = [] as SelectOptions[]
+        input.map((item) => {
+            response.push({
+                label: item,
+                value: item
+            })
+        });
+
+    return response;
 }
 
 
