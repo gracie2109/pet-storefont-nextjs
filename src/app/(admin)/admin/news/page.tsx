@@ -1,7 +1,9 @@
 import {Shell} from "@/components/shell";
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
-import Link from "next/link";
 import {getListPost} from "@/api-requests/news";
+import {NewShell} from "@/components/shells/new-shell";
+import {ResultPageNotification} from "@/components/result-page-notification";
+import * as React from "react";
 
 
 export default async function NewsPage(){
@@ -18,9 +20,17 @@ export default async function NewsPage(){
                 </PageHeader>
             </PageHeaderShell>
 
-            <Link href="/admin/news/create">
-                Create news
-            </Link>
+            {data.status == 200 ?
+                <NewShell data={data.payload.data}/>
+                :
+                <ResultPageNotification
+                    status="404"
+                    title="Something went wrong!"
+                    subtitle={"please try again"}
+                >
+                    <></>
+                </ResultPageNotification>
+            }
         </Shell>
     )
 }
