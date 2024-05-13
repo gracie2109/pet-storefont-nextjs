@@ -2,12 +2,16 @@ import {Shell} from "@/components/shell";
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
 import { NewsHandleTemplate} from "@/components/handle-templates/news";
 import {BackLink} from "@/components/back-link";
+import {getDetailPost} from "@/api-requests/news";
+import {ResultPageNotification} from "@/components/result-page-notification";
+import * as React from "react";
 
 
 interface Params {
     params: { id: string; }
 }
-export default function NewsHandlePage({ params }: Params) {
+export default async function NewsHandlePage({ params }: Params) {
+    const data = await getDetailPost(params.id.toString());
 
     return (
         <Shell variant="sidebar" className="overflow-x-hidden">
@@ -20,7 +24,17 @@ export default function NewsHandlePage({ params }: Params) {
                 </PageHeader>
                 <BackLink href="/admin/news"/>
             </PageHeaderShell>
-            <NewsHandleTemplate params={params.id}/>
+            {data?.status == 200 ? (
+                <NewsHandleTemplate params={params.id} postSelected={data.payload.data}/>
+            ):(
+                <ResultPageNotification
+                    status="404"
+                    title="Something went wrong!"
+                    subtitle={"please try again"}
+                >
+                    <></>
+                </ResultPageNotification>
+            )}
         </Shell>
     )
 }

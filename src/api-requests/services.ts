@@ -11,9 +11,9 @@ import Error from 'next/error';
 export const getListServices = async (): Promise<IServiceFetchResponse> => {
     const result = await http.get(endPoint.getListServices, {
         next: {
-            tags: ['services'],
-            revalidate: 360
+            tags: ['services']
         },
+        cache:'no-cache'
     });
     return result
 }

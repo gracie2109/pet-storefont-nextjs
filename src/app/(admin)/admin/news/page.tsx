@@ -2,11 +2,14 @@ import {Shell} from "@/components/shell";
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
 import Link from "next/link";
 import {getListPost} from "@/api-requests/news";
+import * as React from "react";
+import {PetsShell} from "@/components/shells/pets-shell";
+import {ResultPageNotification} from "@/components/result-page-notification";
+import {NewsShell} from "@/components/shells/news-shell";
 
 
 export default async function NewsPage(){
     const data = await getListPost();
-    console.log("NewsPage", data);
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated >
@@ -18,9 +21,19 @@ export default async function NewsPage(){
                 </PageHeader>
             </PageHeaderShell>
 
-            <Link href="/admin/news/create">
-                Create news
-            </Link>
+            {data.status == 200 ?
+                <React.Fragment>
+                    <NewsShell data={data?.payload?.data}/>
+                </React.Fragment>
+                : (
+                    <ResultPageNotification
+                        status="404"
+                        title="Something went wrong!"
+                        subtitle={"please try again"}
+                    >
+                        <></>
+                    </ResultPageNotification>
+                )}
         </Shell>
     )
 }
