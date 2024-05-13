@@ -38,6 +38,8 @@
     "react-hook-form": "^7.51.3",
     "react-hot-toast": "^2.4.1",
     "react-wrap-balancer": "^1.1.0",
+    "suneditor": "^2.46.2",
+    "suneditor-react": "^3.6.1",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.5"

@@ -1,8 +1,6 @@
 
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
 import {Shell} from "@/components/shell";
-import {ServicesShell} from "@/components/shells/services-shell";
-import {getListServices} from "@/api-requests/services";
 import {RolesShell} from "@/components/shells/roles-shell";
 import {getListRoles} from "@/api-requests/roles";
 
