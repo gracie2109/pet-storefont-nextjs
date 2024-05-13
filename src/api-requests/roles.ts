@@ -8,7 +8,9 @@ import {IPermissionFetchResponse, IRoles} from "@/types/roles";
 
 export const getListRoles = async (): Promise<IRoles[]> => {
     const {payload} = await http.get(endPoint.getListRoles, {
-        next: {tags: ['roles'],},
+        next: {tags: ['roles'],
+        revalidate: 360
+        },
     });
     return payload?.data
 }

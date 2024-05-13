@@ -11,7 +11,9 @@ interface Params {
     params: { id: string; }
 }
 export default async function NewsHandlePage({ params }: Params) {
-    const data = await getDetailPost(params?.id.toString());
+
+    const data = await getDetailPost(params.id.toString());
+
 
     return (
         <Shell variant="sidebar" className="overflow-x-hidden">
@@ -27,11 +29,7 @@ export default async function NewsHandlePage({ params }: Params) {
                 <BackLink href="/admin/news"/>
             </PageHeaderShell>
             {data?.status == 200 ? (
-                <NewsHandleTemplate
-                    params={params.id}
-                    postSelected={data.payload.data}
-                    mode={params.id}
-                />
+                <NewsHandleTemplate params={params.id} postSelected={data.payload.data}/>
             ):(
                 <ResultPageNotification
                     status="404"

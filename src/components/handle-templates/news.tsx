@@ -8,23 +8,24 @@ import {setValuesOfForm} from "@/lib/helpers";
 import toast from "react-hot-toast";
 import {createNewPost, updatePost} from "@/api-requests/news";
 import {INews} from "@/types/news";
+import {IPost} from "@/types/post";
+
 
 
 interface Props {
     params: string,
-    postSelected: INews,
-    mode: string
+    postSelected: IPost
 }
 
-export function NewsHandleTemplate({params, postSelected, mode}: Props) {
+
+export function NewsHandleTemplate({params, postSelected}: Props) {
     const form = useForm<newsInfer | newsEditInfer>({
         mode: "all",
-        resolver: zodResolver(mode ==="create" ? newsSchema : newsEditSchema),
-        defaultValues: mode === "edit" ? postSelected : newInitValue,
+        resolver: zodResolver(params ==="create" ? newsSchema : newsEditSchema),
+        defaultValues: params === "edit" ? postSelected : newInitValue,
     });
 
     const submitHandler = (value: any) => {
-
         if (params === "create") {
             toast.promise((createNewPost(value)), {
                 loading: "Creating...",
@@ -54,10 +55,10 @@ export function NewsHandleTemplate({params, postSelected, mode}: Props) {
     };
 
     React.useEffect(() => {
-        if (postSelected && mode !== "create") {
+        if (postSelected && params !== "create") {
             setValuesOfForm(postSelected, form)
         }
-    }, [postSelected, mode])
+    }, [postSelected, params])
 
 
     return (

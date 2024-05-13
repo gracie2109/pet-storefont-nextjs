@@ -1,23 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'solutions-image-fallback.vercel.app',
-                port: '',
-                pathname: '*/**',
-            },
-        ],
-    },
+    reactStrictMode: false,
     typescript: {
         ignoreBuildErrors: true,
     },
-    reactStrictMode: false,
-    httpAgentOptions: {
-        keepAlive: false,
+    images: {
+        remotePatterns: [{
+            protocol: 'https', hostname: 'solutions-image-fallback.vercel.app', port: '', pathname: '/*/**',
+        }]
     },
 
-};
-
+}
 export default nextConfig;
