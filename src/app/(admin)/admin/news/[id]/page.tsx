@@ -11,13 +11,17 @@ interface Params {
     params: { id: string; }
 }
 export default async function NewsHandlePage({ params }: Params) {
+
     const data = await getDetailPost(params.id.toString());
+
 
     return (
         <Shell variant="sidebar" className="overflow-x-hidden">
             <PageHeaderShell separated>
                 <PageHeader>
-                    <PageHeaderHeading size="sm">NewsHandlePage</PageHeaderHeading>
+                    <PageHeaderHeading size="sm">
+                        {params.id === "create" ? "New post" : "Edit post"}
+                    </PageHeaderHeading>
                     <PageHeaderDescription size="sm">
                         {params.id !== "create" ? "Edit News" : "Create new post"}
                     </PageHeaderDescription>

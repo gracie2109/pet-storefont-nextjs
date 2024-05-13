@@ -6,14 +6,12 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {DataTableColumnHeader} from "@/components/data-tables/column-header";
 import Link from "next/link";
 import {Badge} from "@/components/ui/badge";
-import {Edit, PawPrint, Settings, Trash} from "lucide-react";
+import {Edit, Trash} from "lucide-react";
 import {usePathname, useRouter} from "next/navigation";
 import {DataTableRaw} from "@/components/data-tables";
 import {Button} from "@/components/ui/button";
 import {toast} from "react-hot-toast";
 import {AlertDialogC} from "@/components/alert-dialog-c";
-import {deleteService} from "@/api-requests/services";
-import {convertToVietnamTime} from "@/lib/helpers";
 import {IRoles} from "@/types/roles";
 import {deleteRole} from "@/api-requests/roles";
 

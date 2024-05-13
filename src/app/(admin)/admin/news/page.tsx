@@ -1,9 +1,7 @@
 import {Shell} from "@/components/shell";
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
-import Link from "next/link";
 import {getListPost} from "@/api-requests/news";
 import * as React from "react";
-import {PetsShell} from "@/components/shells/pets-shell";
 import {ResultPageNotification} from "@/components/result-page-notification";
 import {NewsShell} from "@/components/shells/news-shell";
 
@@ -22,6 +20,7 @@ export default async function NewsPage(){
             </PageHeaderShell>
 
             {data.status == 200 ?
+
                 <React.Fragment>
                     <NewsShell data={data?.payload?.data}/>
                 </React.Fragment>

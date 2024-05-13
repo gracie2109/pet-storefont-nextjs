@@ -3,11 +3,13 @@ import * as React from 'react';
 import {NewsForms} from "@/components/forms/news-forms";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {newsSchema, newsEditSchema, newsEditInfer, newsInfer, newInitValue} from "@/validations/news";
+import {newsEditSchema, newsSchema, newInitValue, newsEditInfer, newsInfer} from "@/validations/news";
 import {setValuesOfForm} from "@/lib/helpers";
 import toast from "react-hot-toast";
 import {createNewPost, updatePost} from "@/api-requests/news";
+import {INews} from "@/types/news";
 import {IPost} from "@/types/post";
+
 
 
 interface Props {
@@ -15,11 +17,12 @@ interface Props {
     postSelected: IPost
 }
 
+
 export function NewsHandleTemplate({params, postSelected}: Props) {
     const form = useForm<newsInfer | newsEditInfer>({
         mode: "all",
-        resolver: zodResolver(params !== "create" ? newsEditSchema : newsSchema),
-        defaultValues: params !== "create" ? newInitValue : postSelected
+        resolver: zodResolver(params ==="create" ? newsSchema : newsEditSchema),
+        defaultValues: params === "edit" ? postSelected : newInitValue,
     });
 
     const submitHandler = (value: any) => {
@@ -35,10 +38,10 @@ export function NewsHandleTemplate({params, postSelected}: Props) {
                     return "Create post success!"
                 }
             })
-        }else{
+        } else {
             value.id = params;
             toast.promise((updatePost(value)), {
-                loading: "Creating...",
+                loading: "Updating...",
                 error: (err: any) => {
                     console.log("err", err);
                     return "Update post fail!"
@@ -52,10 +55,10 @@ export function NewsHandleTemplate({params, postSelected}: Props) {
     };
 
     React.useEffect(() => {
-        if (params !== "create" && postSelected) {
+        if (postSelected && params !== "create") {
             setValuesOfForm(postSelected, form)
         }
-    }, [params, postSelected])
+    }, [postSelected, params])
 
 
     return (
