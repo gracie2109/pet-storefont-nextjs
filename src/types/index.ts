@@ -3,7 +3,13 @@ import React from "react";
 
 import {LucideIcon} from "lucide-react";
 
-
+export interface FileWithPath extends File {
+    readonly path?: string;
+}
+export type FileWithPreview = FileWithPath & {
+    preview: string,
+    url?:string
+}
 export interface SearchParams {
     [key: string]: string | string[] | undefined
 }

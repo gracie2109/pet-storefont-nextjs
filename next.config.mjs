@@ -6,7 +6,7 @@ const nextConfig = {
     },
     images: {
         remotePatterns: [{
-            protocol: 'https', hostname: 'solutions-image-fallback.vercel.app', port: '', pathname: '/*/**',
+            protocol: 'https', hostname: 'res.cloudinary.com', port: '', pathname: '/*/**',
         }]
     },
 

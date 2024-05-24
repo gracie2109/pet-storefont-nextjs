@@ -5,6 +5,8 @@ import {useSearchParams} from "next/navigation";
 import {UseFormReturn} from "react-hook-form";
 import {IPermissionFetchResponse, IPermissions} from "@/types/roles";
 import {SelectOptions} from "@/types";
+import {UploadBeforeHandler, UploadBeforeReturn} from "suneditor-react/dist/types/upload";
+import axios from "axios";
 
 export const useQueryString = () => {
     const searchParams = useSearchParams();
@@ -167,14 +169,77 @@ export function convertSettingPriceOfServiceData(inputObj: InputObject, raw?: an
 
 export function modifySelectValue(input: string[]): SelectOptions[] {
     const response = [] as SelectOptions[]
-        input.map((item) => {
-            response.push({
-                label: item,
-                value: item
-            })
-        });
+    input.map((item) => {
+        response.push({
+            label: item,
+            value: item
+        })
+    });
 
     return response;
 }
 
 
+export function formatBytes(
+    bytes: number,
+    decimals = 0,
+    sizeType: "accurate" | "normal" = "normal"
+) {
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
+    const accurateSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"]
+    if (bytes === 0) return "0 Byte"
+    const i = Math.floor(Math.log(bytes) / Math.log(1024))
+    return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
+        sizeType === "accurate" ? accurateSizes[i] ?? "Bytest" : sizes[i] ?? "Bytes"
+    }`
+}
+
+export function isArrayOfFile(files: unknown): files is File[] {
+    const isArray = Array.isArray(files)
+    if (!isArray) return false
+    return files.every((file) => file instanceof File)
+}
+
+export const uploadFiles = async (files: File[], folder: string) => {
+    const response = [] as any[]
+    const formData = new FormData();
+    for (let i of files) {
+        formData.append("file", i);
+        formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!);
+        formData.append("folder", folder)
+        const {data} = await axios.post(
+            `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/upload`,
+            formData
+        );
+        const result = {
+            url: data.secure_url,
+            public_id: data.public_id,
+            folder: data.folder,
+            asset_id: data.asset_id,
+        }
+        response.push(result)
+    }
+    return response;
+}
+
+
+export function onImageUploadBeforeSunEdior(folder: string) {
+    // @ts-ignore
+    return (files: File[], info: object, uploadHandler: UploadBeforeHandler): UploadBeforeReturn => {
+        (async () => {
+            const data = await uploadFiles(files, folder);
+            console.log("data", data)
+            const res = {
+                result: [
+                    {
+                        url: data?.[0]?.url,
+                        name: "thumbnail",
+                    },
+                ],
+            } as any;
+
+            uploadHandler(res);
+        })();
+        uploadHandler();
+    };
+}

@@ -8,7 +8,7 @@ export const newsSchema = z.object({
     ,
     images:z.any().optional(),
     preview:z.string().optional(),
-    content:z.string().min(11, {message: 'Post content need content'}),
+    content:z.string().min(12, {message: 'Post content need content'}),
     tags:z.array(z.any()).optional(),
 })
 
@@ -23,7 +23,7 @@ export type newsEditInfer = z.infer<typeof newsEditSchema>;
 
 export const newInitValue = {
     name: "",
-    images:null,
+    images:[],
     preview:"",
     content:"",
     tags:[]

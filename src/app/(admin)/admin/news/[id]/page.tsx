@@ -14,7 +14,6 @@ export default async function NewsHandlePage({ params }: Params) {
 
     const data = await getDetailPost(params.id.toString());
 
-
     return (
         <Shell variant="sidebar" className="overflow-x-hidden">
             <PageHeaderShell separated>
@@ -28,7 +27,7 @@ export default async function NewsHandlePage({ params }: Params) {
                 </PageHeader>
                 <BackLink href="/admin/news"/>
             </PageHeaderShell>
-            {data?.status == 200 ? (
+            {data?.status === 200 || params.id === "create" && data ? (
                 <NewsHandleTemplate params={params.id} postSelected={data.payload.data}/>
             ):(
                 <ResultPageNotification

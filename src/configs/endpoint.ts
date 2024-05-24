@@ -41,6 +41,9 @@ export const endPoint = {
     getListPost:"news/get-all",
     deletePost:"news/delete-post",
     updatePost:"news/edit-post",
-    getDetailPost:"news/get-by-id"
+    getDetailPost:"news/get-by-id",
+
+    //categories
+    getListCategories:"categories/get-all-categories",
 
 }

@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import {createNewPost, updatePost} from "@/api-requests/news";
 import {INews} from "@/types/news";
 import {IPost} from "@/types/post";
+import {FileWithPreview} from "@/types";
 
 
 
@@ -19,6 +20,7 @@ interface Props {
 
 
 export function NewsHandleTemplate({params, postSelected}: Props) {
+    const [images, setImages] = React.useState<FileWithPreview[] | null>(null);
     const form = useForm<newsInfer | newsEditInfer>({
         mode: "all",
         resolver: zodResolver(params ==="create" ? newsSchema : newsEditSchema),
@@ -27,17 +29,18 @@ export function NewsHandleTemplate({params, postSelected}: Props) {
 
     const submitHandler = (value: any) => {
         if (params === "create") {
-            toast.promise((createNewPost(value)), {
-                loading: "Creating...",
-                error: (err: any) => {
-                    console.log("err", err);
-                    return "Creat post fail!"
-                },
-                success: (data: any) => {
-                    console.log(data);
-                    return "Create post success!"
-                }
-            })
+            // toast.promise((createNewPost(value)), {
+            //     loading: "Creating...",
+            //     error: (err: any) => {
+            //         console.log("err", err);
+            //         return "Creat post fail!"
+            //     },
+            //     success: (data: any) => {
+            //         console.log(data);
+            //         return "Create post success!"
+            //     }
+            // });
+            console.log("create", value)
         } else {
             value.id = params;
             toast.promise((updatePost(value)), {
@@ -68,6 +71,8 @@ export function NewsHandleTemplate({params, postSelected}: Props) {
                 submitHandler={submitHandler}
                 loading={false}
                 mode={params}
+                images={images}
+                setImages={setImages}
             />
         </React.Fragment>
     )
