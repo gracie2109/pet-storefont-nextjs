@@ -6,32 +6,32 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {DataTableColumnHeader} from "@/components/data-tables/column-header";
 import Link from "next/link";
 import {Badge} from "@/components/ui/badge";
-import {Edit, EyeIcon, Image, Trash} from "lucide-react";
+import {Edit, EyeIcon, Trash} from "lucide-react";
 import {usePathname, useRouter} from "next/navigation";
 import {DataTableRaw} from "@/components/data-tables";
 import {Button} from "@/components/ui/button";
 import {AlertDialogC} from "@/components/alert-dialog-c";
-import {IPost} from "@/types/post";
 import {fallbackImage} from "@/lib/contants";
 import {DialogC} from "@/components/dialog-c";
 import {useMounted} from "@/hooks/use-mounted";
 import {deletePost} from "@/api-requests/news";
 import toast from "react-hot-toast";
-
+import {truncate} from "@/lib/utils";
+import {INews} from "@/types/news";
+import Image from "next/image";
 interface ServicesShellProps {
-    data: IPost[],
+    data: INews[],
 }
 
 export function NewsShell(props: ServicesShellProps) {
     const [selectedRowIds, setSelectedRowIds] = React.useState<number[]>([])
     const [pending, startTransition] = React.useTransition();
     const [openDialog, setOpenDialog] = React.useState<boolean>(false);
-    const [deleteItem, setDeleteItem] = React.useState<IPost | null>(null);
+    const [deleteItem, setDeleteItem] = React.useState<INews | null>(null);
     const pathname = usePathname();
     const router = useRouter();
     const [openModal, setOpenModal] = React.useState<boolean>(false);
     const mounted = useMounted();
-
 
     const columns = React.useMemo<ColumnDef<any, unknown>[]>(
         () => [
@@ -73,6 +73,26 @@ export function NewsShell(props: ServicesShellProps) {
                 enableSorting: false,
                 enableHiding: false,
             },
+
+            {
+                accessorKey: "images",
+                header: ({column}) => (
+                    <DataTableColumnHeader column={column} title="Cover"/>
+                ),
+                cell: ({row}) => {
+                    const images = row.original.images[0];
+                    return (
+                        <div className="lowercase truncate ">
+                            <Image
+                                src={images?.url ? images?.url  : fallbackImage}
+                                alt={row.original.name}
+                                width={40}
+                                height={40}
+                            />
+                        </div>
+                    )
+                },
+            },
             {
                 accessorKey: "name",
                 header: ({column}) => (
@@ -83,27 +103,8 @@ export function NewsShell(props: ServicesShellProps) {
                     return (
                         <div className="lowercase truncate ">
                             <Link href={`${pathname}/${id}`}>
-                                {row.getValue("name")}
+                                {truncate(row.getValue("name"), 30)}
                             </Link>
-                        </div>
-                    )
-                },
-            },
-            {
-                accessorKey: "images",
-                header: ({column}) => (
-                    <DataTableColumnHeader column={column} title="Cover"/>
-                ),
-                cell: ({row}) => {
-                    return (
-                        <div className="lowercase truncate ">
-                            <Image
-                                //@ts-ignore
-                                src={fallbackImage ? fallbackImage : ""}
-                                alt={row.original.name}
-                                width={30}
-                                height={30}
-                            />
                         </div>
                     )
                 },
@@ -117,7 +118,7 @@ export function NewsShell(props: ServicesShellProps) {
                 cell: ({row}) => {
                     return (
                         <div>
-                            {row.original.preview}
+                            {truncate(row.original.preview, 50)}
                         </div>
                     )
                 },
@@ -221,9 +222,11 @@ export function NewsShell(props: ServicesShellProps) {
                     title={deleteItem?.name}
                     open={openModal}
                     setOpen={setOpenModal}
-                    className="w-[90vw]"
+                    className="max-w-screen-md p-12 h-full max-h-screen overflow-y-auto"
                 >
-                    <div dangerouslySetInnerHTML={{__html: deleteItem?.content}}/>
+                    <div className="relative container max-w-screen-sm">
+                        <div dangerouslySetInnerHTML={{__html: deleteItem?.content}}/>
+                    </div>
                 </DialogC>
             )}
         </React.Fragment>

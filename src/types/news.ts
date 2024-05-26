@@ -1,8 +1,8 @@
-import {SelectOptions, ShareResponse} from "@/types/index";
+import {IImagesFile, SelectOptions, ShareResponse} from "@/types/index";
 
 export interface INews extends ShareResponse {
     name: string,
-    images:any,
+    images:IImagesFile[],
     tags:SelectOptions[],
     preview:string,
     content:any,

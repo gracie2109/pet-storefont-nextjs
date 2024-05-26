@@ -3,10 +3,8 @@
 import {
     FormMessage,
     FormLabel,
-    useFormField,
     FormItem,
     FormField,
-    FormDescription,
     FormControl,
     Form
 } from "@/components/ui/form"
@@ -15,10 +13,7 @@ import {Input} from "@/components/ui/input";
 import * as React from "react";
 import {Button} from "@/components/ui/button";
 import {ReloadIcon} from "@radix-ui/react-icons";
-import dynamic from "next/dynamic";
-
 import 'suneditor/dist/css/suneditor.min.css';
-import {sunEditorSetting} from "@/configs/rich-text-editor";
 import {Textarea} from "@/components/ui/textarea";
 import {RichTextEditor} from "@/components/rich-text-editor";
 import MultipleSelector from "@/components/multiple-selector";
@@ -73,7 +68,7 @@ export function NewsForms({form, submitHandler, loading, mode, images, setImages
                                     <FormControl>
                                         <div className="flex gap-3 relative">
                                             <FileDialog name={"images"}
-                                                        maxFiles={100}
+                                                        maxFiles={1}
                                                         files={images}
                                                         setFiles={setImages}
                                             />

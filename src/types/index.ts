@@ -91,3 +91,14 @@ export interface SelectOptions {
 export interface GroupOption {
     [key: string]: SelectOptions[];
 }
+
+
+export interface IImagesFile {
+    url:string,
+    public_id:string,
+    folder:string,
+    asset_id:string,
+    name:string,
+    width:number,
+    height:number
+}
