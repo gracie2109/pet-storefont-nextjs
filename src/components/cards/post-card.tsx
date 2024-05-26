@@ -13,7 +13,7 @@ export function PostCard({data,className}: Props) {
             <div className={cn("border border-primary rounded-lg h-92", className)}>
                 <div className="grid place-items-center">
                     <Link href={`/news/${data?.slug}`}>
-                        <img src={data.images?.[0].url} alt={data.name}
+                        <img src={data.images?.[0]?.url} alt={data?.name}
                              className="object-cover h-36 w-auto"/>
                     </Link>
 

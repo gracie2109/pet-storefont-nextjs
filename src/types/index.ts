@@ -100,5 +100,15 @@ export interface IImagesFile {
     asset_id:string,
     name:string,
     width:number,
-    height:number
+    height:number,
+    type:"image"
+}
+
+export interface FooterItem {
+    title: string
+    items: {
+        title: string
+        href: string
+        external?: boolean
+    }[]
 }

@@ -46,8 +46,7 @@ export const convertImageServerToPreview = (file: IImagesFile[] | undefined):nul
             lastModified: 0,
             webkitRelativePath: "",
             size: 0,
-            type: "",
-
+            type: "image",
             arrayBuffer: function (): Promise<ArrayBuffer> {
                 throw new Error("Function not implemented.");
             },
@@ -77,4 +76,16 @@ export function toTitleCase(str: string) {
         /\w\S*/g,
         (txt) => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase()
     )
+}
+export function slugify(str: string) {
+    return str
+        .toLowerCase()
+        .replace(/ /g, "-")
+        .replace(/[^\w-]+/g, "")
+        .replace(/--+/g, "-")
+}
+
+
+export function absoluteUrl(path: string) {
+    return `${process.env.NEXT_PUBLIC_APP_URL!}${path}`
 }

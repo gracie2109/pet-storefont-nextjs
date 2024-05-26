@@ -5,6 +5,11 @@ import {toTitleCase, truncate} from "@/lib/utils";
 import {INews} from "@/types/news";
 import {PostRelatedCard} from "@/components/cards/post-related-card";
 import {Breadcrumbs} from "@/components/breadcrumb"
+import {Skeleton} from "@/components/ui/skeleton";
+import {CardSkeleton} from "@/components/cards/card-skeleton";
+import {Card} from "@/components/ui/card";
+import {ResultPageNotification} from "@/components/result-page-notification";
+import Link from "next/link";
 
 interface Params {
     params: { slug: string; }
@@ -13,7 +18,7 @@ interface Params {
 export default async function PageDetailPost({params}: Params) {
     const postSelected = await getDetailPostBySlug(params.slug.toString());
     const {payload} = await getListPost();
-    const relatedPost = payload.data.filter((i: INews) => i._id !== postSelected?.payload.data._id);
+    const relatedPost =postSelected?.status == 200 && payload.data.filter((i: INews) => i._id !== postSelected?.payload.data._id);
 
     if (postSelected?.status == 200 && postSelected.payload.data) {
         const data = postSelected.payload.data;
@@ -27,8 +32,8 @@ export default async function PageDetailPost({params}: Params) {
                                 href: "/news",
                             },
                             {
-                                title: toTitleCase(postSelected.payload.data.name),
-                                type:"text",
+                                title: truncate(toTitleCase(postSelected.payload.data.name), 100),
+                                type: "text",
                             }
                         ]}
                     />
@@ -55,7 +60,7 @@ export default async function PageDetailPost({params}: Params) {
                     <div className="w-1/3 space-y-8">
                         <div className="mt-5 space-y-8 ">
                             <div className="text-2xl font-bold text-inner__line">TAGS</div>
-                            <div>
+                            <div className="flex flex-wrap gap-3">
                                 {(data?.tags as INews['tags'])?.map((i, j: number) => (
                                     <a href="#" key={j}>
                                 <span
@@ -75,18 +80,30 @@ export default async function PageDetailPost({params}: Params) {
                                     <PostRelatedCard key={jj} data={j}/>
                                 ))}
                             </div>
-                            <div className="text-center hinh-thoi w-32 m-auto p-1.5 ">
-                                {relatedPost.length >= 2 && (
-                                    <button className="w-full">
-                                        <a href="/news"> Show more</a>
-                                    </button>
-                                )}
-                            </div>
+                            {relatedPost.length >= 2 && (<div className="text-center hinh-thoi w-32 m-auto p-1.5 ">
+
+                                <button className="w-full">
+                                    <a href="/news"> Show more</a>
+                                </button>
+
+                            </div>)}
                         </div>
                     </div>
                 </div>
             </Shell>
+
+        )
+    } else {
+        return (
+            <ResultPageNotification
+                status="404"
+                title="NOT FOUND RECORD"
+                subtitle={
+                    <Link href={"/news"} className="text-primary">Go Back</Link>
+                }
+            >
+                <></>
+            </ResultPageNotification>
         )
     }
-
 }

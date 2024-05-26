@@ -18,86 +18,43 @@ interface Props {
     postSelected?: INews
 }
 
-
 export function NewsHandleTemplate({params, postSelected}: Props) {
     const [images, setImages] = React.useState<FileWithPreview[] | null>(null);
     const form = useForm<newsInfer | newsEditInfer>({
         mode: "all",
         resolver: zodResolver(params ==="create" ? newsSchema : newsEditSchema),
-        defaultValues: params === "edit" ? postSelected : newInitValue,
+        defaultValues: params === "create" ? newInitValue:postSelected,
     });
 
     const onSubmit = async (values: any) => {
-        if(params == "create")    {
-          if(images){
-              await uploadFiles(images,"news").then((res:any[])=>{
-                  console.log("res ===>", res);
-                  toast.promise((createNewPostFn({...values, images:res})), {
-                      loading: "Creating...",
-                      error:(err:any) => {
-                          console.log("err", err);
-                          return "Creat news fail!"
-                      },
-                      success: (data: any) => {
-                          console.log("success", data);
-                          form.reset();
-                          setImages([])
-                          return "Create news success!"
-                      }
-                  })
-              })
-          }else{
-              toast.promise((createNewPostFn({...values})), {
-                  loading: "Creating...",
-                  error:(err:any) => {
-                      console.log("err", err);
-                      return "Creat news fail!"
-                  },
-                  success: (data: any) => {
-                      console.log("success", data);
-                      form.reset();
-                      setImages([])
-                      return "Create news success!"
-                  }
-              })
-          }
-
-        }else{
-            if(images) {
-                await uploadFiles(images,"news").then((res:any[])=>{
-                    toast.promise((updatePost({...values, images:res, id: params})), {
-                        loading: "Creating...",
-                        error:(err:any) => {
-                            console.log("err", err);
-                            return "Update news fail!"
-                        },
-                        success: (data: any) => {
-                            console.log("success", data);
-                            form.reset();
-                            setImages([])
-                            return "Update news success!"
-                        }
-                    })
-                })
-            }else{
-                toast.promise((updatePost({...values,id: params})), {
-                    loading: "Creating...",
-                    error:(err:any) => {
-                        console.log("err", err);
-                        return "Update news fail!"
-                    },
-                    success: (data: any) => {
-                        console.log("success", data);
-                        form.reset();
-                        setImages([])
-                        return "Update news success!"
-                    }
-                })
-            }
+        const data = (params === "create" ) ? { ...values } : {...values, id: params};
+        if (images) {
+            const uploadedImages = await uploadFiles(images, "news");
+            data.images = uploadedImages;
         }
 
-    };
+        const toastPromise = toast.promise(
+            params === "create" ? createNewPostFn(data) : updatePost(data),
+            {
+                loading: "Loading...",
+                error: (err: any) => {
+                    console.log("err", err);
+                    return params === "create"
+                        ? "Create news fail!"
+                        : "Update news fail!";
+                },
+                success: (data: any) => {
+                    form.reset();
+                    setImages([]);
+                    return params === "create"
+                        ? "Create news success!"
+                        : "Update news success!";
+                },
+            }
+        );
 
+        return toastPromise;
+    };
     React.useEffect(() => {
         if (postSelected && params !== "create") {
             setValuesOfForm(postSelected, form);
