@@ -1,11 +1,11 @@
-import React from "react";
+import React, {HTMLAttributes} from "react";
 import {Icons} from "@/components/icons";
 import {clsx} from  "clsx";
 
-interface ResultPageNotification {
+interface ResultPageNotification   {
     title: React.ReactNode,
     subtitle: React.ReactNode,
-    status:"success" | "error" | "info" | "warning" | "404" | "403" | "500",
+    status:"success" | "error" | "info" | "warning" | "404" | "403" | "500" | "empty",
     children:React.ReactNode,
 
 }

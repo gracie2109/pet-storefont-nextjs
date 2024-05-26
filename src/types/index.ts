@@ -3,7 +3,13 @@ import React from "react";
 
 import {LucideIcon} from "lucide-react";
 
-
+export interface FileWithPath extends File {
+    readonly path?: string;
+}
+export type FileWithPreview = FileWithPath & {
+    preview: string,
+    url?:string
+}
 export interface SearchParams {
     [key: string]: string | string[] | undefined
 }
@@ -84,4 +90,25 @@ export interface SelectOptions {
 }
 export interface GroupOption {
     [key: string]: SelectOptions[];
+}
+
+
+export interface IImagesFile {
+    url:string,
+    public_id:string,
+    folder:string,
+    asset_id:string,
+    name:string,
+    width:number,
+    height:number,
+    type:"image"
+}
+
+export interface FooterItem {
+    title: string
+    items: {
+        title: string
+        href: string
+        external?: boolean
+    }[]
 }

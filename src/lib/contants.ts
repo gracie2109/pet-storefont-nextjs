@@ -10,4 +10,4 @@ export const sampleTags = [
     'Pet fashion and accessories'
 ];
 
-export const fallbackImage = "https://solutions-image-fallback.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Ffallback.7b9af9ee.jpg&w=256&q=75"
+export const fallbackImage = "https://res.cloudinary.com/dta662hjr/image/upload/v1715681470/pet-store/other/image_ilcavg.jpg"

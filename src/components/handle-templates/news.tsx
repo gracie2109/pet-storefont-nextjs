@@ -6,57 +6,60 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {newsEditSchema, newsSchema, newInitValue, newsEditInfer, newsInfer} from "@/validations/news";
 import {setValuesOfForm} from "@/lib/helpers";
 import toast from "react-hot-toast";
-import {createNewPost, updatePost} from "@/api-requests/news";
+import { createNewPostFn, updatePost} from "@/api-requests/news";
+import {FileWithPreview} from "@/types";
+import {convertImageServerToPreview, uploadFiles} from "@/lib/utils";
 import {INews} from "@/types/news";
-import {IPost} from "@/types/post";
 
 
 
 interface Props {
     params: string,
-    postSelected: IPost
+    postSelected?: INews
 }
 
-
 export function NewsHandleTemplate({params, postSelected}: Props) {
+    const [images, setImages] = React.useState<FileWithPreview[] | null>(null);
     const form = useForm<newsInfer | newsEditInfer>({
         mode: "all",
         resolver: zodResolver(params ==="create" ? newsSchema : newsEditSchema),
-        defaultValues: params === "edit" ? postSelected : newInitValue,
+        defaultValues: params === "create" ? newInitValue:postSelected,
     });
 
-    const submitHandler = (value: any) => {
-        if (params === "create") {
-            toast.promise((createNewPost(value)), {
-                loading: "Creating...",
-                error: (err: any) => {
-                    console.log("err", err);
-                    return "Creat post fail!"
-                },
-                success: (data: any) => {
-                    console.log(data);
-                    return "Create post success!"
-                }
-            })
-        } else {
-            value.id = params;
-            toast.promise((updatePost(value)), {
-                loading: "Updating...",
-                error: (err: any) => {
-                    console.log("err", err);
-                    return "Update post fail!"
-                },
-                success: (data: any) => {
-                    console.log(data);
-                    return "Update post success!"
-                }
-            })
+    const onSubmit = async (values: any) => {
+        const data = (params === "create" ) ? { ...values } : {...values, id: params};
+        if (images) {
+            const uploadedImages = await uploadFiles(images, "news");
+            data.images = uploadedImages;
         }
-    };
 
+        const toastPromise = toast.promise(
+            params === "create" ? createNewPostFn(data) : updatePost(data),
+            {
+                loading: "Loading...",
+                error: (err: any) => {
+                    console.log("err", err);
+                    return params === "create"
+                        ? "Create news fail!"
+                        : "Update news fail!";
+                },
+                success: (data: any) => {
+                    form.reset();
+                    setImages([]);
+                    return params === "create"
+                        ? "Create news success!"
+                        : "Update news success!";
+                },
+            }
+        );
+
+        return toastPromise;
+    };
     React.useEffect(() => {
         if (postSelected && params !== "create") {
-            setValuesOfForm(postSelected, form)
+            setValuesOfForm(postSelected, form);
+            const newImages = convertImageServerToPreview(postSelected?.images);
+            setImages(newImages)
         }
     }, [postSelected, params])
 
@@ -65,9 +68,11 @@ export function NewsHandleTemplate({params, postSelected}: Props) {
         <React.Fragment>
             <NewsForms
                 form={form}
-                submitHandler={submitHandler}
+                submitHandler={onSubmit}
                 loading={false}
                 mode={params}
+                images={images}
+                setImages={setImages}
             />
         </React.Fragment>
     )

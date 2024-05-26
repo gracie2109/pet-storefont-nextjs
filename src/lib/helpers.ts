@@ -3,8 +3,10 @@
 
 import {useSearchParams} from "next/navigation";
 import {UseFormReturn} from "react-hook-form";
-import {IPermissionFetchResponse, IPermissions} from "@/types/roles";
+import {IPermissions} from "@/types/roles";
 import {SelectOptions} from "@/types";
+import {UploadBeforeHandler, UploadBeforeReturn} from "suneditor-react/dist/types/upload";
+import {uploadFiles} from "@/lib/utils";
 
 export const useQueryString = () => {
     const searchParams = useSearchParams();
@@ -43,6 +45,7 @@ export function convertToVietnamTime(minutes: number, mode: "single" | "string",
         return {hours, minutes};
     }
 }
+
 
 
 interface GroupedData {
@@ -167,14 +170,55 @@ export function convertSettingPriceOfServiceData(inputObj: InputObject, raw?: an
 
 export function modifySelectValue(input: string[]): SelectOptions[] {
     const response = [] as SelectOptions[]
-        input.map((item) => {
-            response.push({
-                label: item,
-                value: item
-            })
-        });
+    input.map((item) => {
+        response.push({
+            label: item,
+            value: item
+        })
+    });
 
     return response;
 }
 
+
+export function formatBytes(
+    bytes: number,
+    decimals = 0,
+    sizeType: "accurate" | "normal" = "normal"
+) {
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
+    const accurateSizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"]
+    if (bytes === 0) return "0 Byte"
+    const i = Math.floor(Math.log(bytes) / Math.log(1024))
+    return `${(bytes / Math.pow(1024, i)).toFixed(decimals)} ${
+        sizeType === "accurate" ? accurateSizes[i] ?? "Bytest" : sizes[i] ?? "Bytes"
+    }`
+}
+
+export function isArrayOfFile(files: unknown): files is File[] {
+    const isArray = Array.isArray(files)
+    if (!isArray) return false
+    return files.every((file) => file instanceof File)
+}
+
+
+export function onImageUploadBeforeSunEdior(folder: string) {
+    // @ts-ignore
+    return (files: File[], info: object, uploadHandler: UploadBeforeHandler): UploadBeforeReturn => {
+        (async () => {
+            const data = await uploadFiles(files, folder);
+            const res = {
+                result: [
+                    {
+                        url: data?.[0]?.url,
+                        name: "thumbnail",
+                    },
+                ],
+            } as any;
+
+            uploadHandler(res);
+        })();
+        uploadHandler();
+    };
+}
 

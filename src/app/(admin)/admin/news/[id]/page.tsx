@@ -11,25 +11,24 @@ interface Params {
     params: { id: string; }
 }
 export default async function NewsHandlePage({ params }: Params) {
-
-    const data = await getDetailPost(params.id.toString());
-
+    const id = params.id.toString()
+    const data = id !== "create" &&  await getDetailPost(params.id.toString());
 
     return (
         <Shell variant="sidebar" className="overflow-x-hidden">
             <PageHeaderShell separated>
                 <PageHeader>
                     <PageHeaderHeading size="sm">
-                        {params.id === "create" ? "New post" : "Edit post"}
+                        {id === "create" ? "New post" : "Edit post"}
                     </PageHeaderHeading>
                     <PageHeaderDescription size="sm">
-                        {params.id !== "create" ? "Edit News" : "Create new post"}
+                        {id !== "create" ? "Edit News" : "Create new post"}
                     </PageHeaderDescription>
                 </PageHeader>
                 <BackLink href="/admin/news"/>
             </PageHeaderShell>
-            {data?.status == 200 ? (
-                <NewsHandleTemplate params={params.id} postSelected={data.payload.data}/>
+            {id === "create" || (data && data?.status === 200 ) ? (
+                <NewsHandleTemplate params={id} postSelected={data ? data.payload.data : null}/>
             ):(
                 <ResultPageNotification
                     status="404"
