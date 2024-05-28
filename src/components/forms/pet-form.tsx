@@ -15,6 +15,10 @@ export function PetForm({form, submitHandler, mode, loading}: {
     mode: string | null,
     loading: boolean
 }) {
+
+
+
+
     return (
         <>
             <Form {...form}  >
@@ -37,37 +41,40 @@ export function PetForm({form, submitHandler, mode, loading}: {
                     <FormField
                         control={form.control}
                         name="icon"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Icon</FormLabel>
-                                <Select onValueChange={field.onChange}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue
-                                                placeholder={field.value ? field.value: "Select a icon to display"}
-
-                                            />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {
-                                            Object.entries(PetIcons).map(([key, value]) => {
-                                                const IconShow = value as any;
-                                                return (
-                                                    <SelectItem key={key} value={key}>
-                                                        <div className="flex items-center">
-                                                            <IconShow className="w-4 h-4 mr-2"/>
-                                                            {key}
-                                                        </div>
-                                                    </SelectItem>
-                                                )
-                                            })
-                                        }
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
+                        render={({field}) => {
+                            console.log("fields", field)
+                           return (
+                                <FormItem>
+                                    <FormLabel>Icon</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value} >
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue
+                                                    placeholder="Select a icon to display"
+    
+                                                />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            {
+                                                Object.entries(PetIcons).map(([key, value]) => {
+                                                    const IconShow = value as any;
+                                                    return (
+                                                        <SelectItem key={key} value={key}>
+                                                            <div className="flex items-center">
+                                                                <IconShow className="w-4 h-4 mr-2"/>
+                                                                {key}
+                                                            </div>
+                                                        </SelectItem>
+                                                    )
+                                                })
+                                            }
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage/>
+                                </FormItem>
+                            )
+                        }}
                     />
 
 
