@@ -1,12 +1,13 @@
+
 import {Shell} from "@/components/shell";
 import {Skeleton} from "@/components/ui/skeleton";
-import {CardSkeleton} from "@/components/cards/card-skeleton";
 import * as React from "react";
 import {Card} from "@/components/ui/card";
 
 export default function NewsPageLoading() {
+
     return (
-        <Shell>
+        <Shell >
 
             <div className="flex items-center gap-3">
                 <Skeleton className="h-4 w-[80px]" /> <span className="text-gray-400">/</span> <Skeleton className="h-4 w-[200px]" />
@@ -39,7 +40,7 @@ export default function NewsPageLoading() {
                 <div className="flex-1">
                     <div className="grid grid-cols-3 gap-3">
                         {Array.from({length: 6}).map((_, i) => (
-                            <Card className="h-2 border-none rounded-sm">
+                            <Card className="h-2 border-none rounded-sm" key={i}>
 
                                 <div className="grid place-items-center">
                                     <Skeleton className="h-36 w-full"/>

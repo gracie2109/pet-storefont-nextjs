@@ -2,14 +2,10 @@
 
 import http from "@/configs/http";
 import {endPoint} from "@/configs/endpoint";
-import {revalidateTag} from "next/cache";
+import {unstable_cache} from 'next/cache';
 
-
-export const getListCategories = async() => {
-    const data = await http.get(endPoint.getListCategories, {
-        next: {
-            tags:['categories']
-        }
-    });
+export const getListCategories = unstable_cache(async () => {
+    const data = await http.get(endPoint.getListCategories);
     return data
-}
+},['categories'])
+

@@ -19,7 +19,7 @@ export default async function NewsPage(){
                 </PageHeader>
             </PageHeaderShell>
 
-            {data.status == 200 ?
+            {data.status === 200 ?
 
                 <React.Fragment>
                     <NewsShell data={data?.payload?.data}/>

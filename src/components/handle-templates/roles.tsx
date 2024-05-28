@@ -26,7 +26,6 @@ export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTem
 
 
     const handleSubmit =  (values: any) => {
-        console.log("handleSubmit", values);
         if(params == "create"){
             toast.promise((createNewRole(values)), {
                 loading: "Creating...",
@@ -37,7 +36,6 @@ export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTem
                 },
                 success: (data: any) => {
                     console.log("success", data);
-                    setSend(true)
                     return "Create role success!"
                 }
             })
