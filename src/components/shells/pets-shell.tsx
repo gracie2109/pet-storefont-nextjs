@@ -30,13 +30,14 @@ export function PetsShell(props: Props) {
     const [selectedRowIds, setSelectedRowIds] = React.useState<number[]>([])
     const [pending, startTransition] = React.useTransition();
     const [openDialog, setOpenDialog] = React.useState<boolean>(false);
-    const [handleItem, setHandleItem] = React.useState<any>(null);
+    const [handleItem, setHandleItem] = React.useState<any | null>(null);
     const pathname = usePathname();
     const [openModal, setOpenModal] = React.useState<boolean>(false);
     const router = useRouter();
     const [mode, setMode] = React.useState<string | null>(null)
     const mouted = useMounted()
 
+    console.log("mode", mode)
     const columns = React.useMemo<ColumnDef<any, unknown>[]>(
         () => [
             {
@@ -164,9 +165,8 @@ export function PetsShell(props: Props) {
     };
     const form = useForm<petInfer | petEditInfer>({
         mode: "all",
-        defaultValues: mode !== "edit" ? initValue : handleItem,
-        values: (mode == "edit" && handleItem) ? handleItem : initValue,
-        resolver: zodResolver(mode == "create" ? petSchema : petEditSchema),
+        defaultValues: (!mode || mode === "create") ? initValue : handleItem,
+        resolver: zodResolver((!mode || mode === "create") ? petSchema : petEditSchema),
     });
 
     const handleSubmit = (value: any) => {
@@ -211,10 +211,13 @@ export function PetsShell(props: Props) {
     }, [openModal]);
 
     React.useEffect(() => {
-        if (mode == "edit" && handleItem && mouted) {
-            setValuesOfForm(handleItem, form);
+        if (mode === "edit" && handleItem ) {
+            setValuesOfForm(handleItem, form)
         }
-    }, [handleItem, mode, mouted])
+    }, [handleItem, mode]);
+
+
+    
 
     return (
         <React.Fragment>

@@ -11,3 +11,4 @@ export const sampleTags = [
 ];
 
 export const fallbackImage = "https://res.cloudinary.com/dta662hjr/image/upload/v1715681470/pet-store/other/image_ilcavg.jpg"
+

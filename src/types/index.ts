@@ -30,7 +30,7 @@ export interface DataTableFilterableColumn<TData>
 }
 
 export interface NavItem {
-    title: string
+    title?: string
     href?: string
     disabled?: boolean
     external?: boolean
@@ -40,17 +40,22 @@ export interface NavItem {
 }
 
 export interface NavItemWithChildren extends NavItem {
-    items: NavItemWithChildren[]
+    items?: NavItemWithChildren[]
 }
 
 
 export interface MainNavChildren {
-    title: string,
-    href: string,
+    title?: string,
+    href?: string,
     isSpecial?:boolean
 }
 
-export type MainNavItem = MainNavChildren;
+export interface NavItemWithOptionalChildren extends NavItem {
+    items?: NavItemWithChildren[]
+}
+
+
+export interface MainNavItem extends NavItemWithOptionalChildren {}
 
 export type SidebarNavItem = NavItemWithChildren;
 

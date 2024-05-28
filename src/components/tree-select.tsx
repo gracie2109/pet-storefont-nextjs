@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils";
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import useResizeObserver from "use-resize-observer";
+import {MainNavItem} from "@/types";
 
 interface TreeDataItem {
     _id: string;
