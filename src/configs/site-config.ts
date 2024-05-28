@@ -78,70 +78,7 @@ export const siteConfig = {
             href: "/admin/collections",
             description: "All the roles we have",
             items: [],
-        },
-
-        {
-            title: "Pets",
-            href: "/admin/pets",
-            description: "All the customers we have to offer.",
-            items: [],
-        },
-        {
-            title: "Role & Permissions",
-            href: "/admin/roles",
-            description: "All the customers we have to offer.",
-            items: [],
-        },
-        {
-            title: "News",
-            href: "/admin/news",
-            description: "All the customers we have to offer.",
-            items: [],
-        },
-        {
-            title: "Services",
-            href: "/admin/services",
-            description: "All the customers we have to offer.",
-            items: [],
-        },
-        {
-            title: "Customers",
-            href: "/admin/customers",
-            description: "All the customers we have to offer.",
-            items: [],
-        },
-        {
-            title: "Products",
-            href: "/admin/products",
-            description: "All the products we have to offer.",
-            items: [],
-        },
-        {
-            title: "Roles",
-            href: "/admin/roles",
-            description: "All the roles we have",
-            items: [],
-        },
-        {
-            title: "Orders",
-            href: "/admin/orders",
-            description: "All the roles we have",
-            items: [],
-        },
-        {
-            title: "Vouchers",
-            href: "/admin/vouchers",
-            description: "All the roles we have",
-            items: [],
-        },
-        {
-            title: "Collections",
-            href: "/admin/collections",
-            description: "All the roles we have",
-            items: [],
-        },
-
-
+        }
     ] satisfies MainNavItem[]
 
 }

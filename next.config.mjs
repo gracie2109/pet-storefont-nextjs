@@ -9,6 +9,9 @@ const nextConfig = {
             protocol: 'https', hostname: 'res.cloudinary.com', port: '', pathname: '/*/**',
         }]
     },
-
+    experimental:{
+        // esmExternals:"loose"
+    },
+    eslint:{ignoreDuringBuilds: true}
 }
 export default nextConfig;

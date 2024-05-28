@@ -2,11 +2,14 @@ import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} f
 import {Shell} from "@/components/shell";
 import {ServicesShell} from "@/components/shells/services-shell";
 import {getListServices} from "@/api-requests/services";
-import Error from "next/error";
 
 export default async function ServicePageAdmin() {
     const result = await getListServices();
 
+
+
+
+    console.log("countryAtom");
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated>

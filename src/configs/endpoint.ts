@@ -47,4 +47,8 @@ export const endPoint = {
     //categories
     getListCategories:"categories/get-all-categories",
 
+    //customers
+    getListCustomers: "customers/get-all",
+
+
 }

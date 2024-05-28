@@ -84,6 +84,13 @@ export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormPro
                     />}
 
 
+             <div>
+
+                    Time to do for every pey
+
+
+
+             </div>
                 <Button type="submit" disabled={loading}>
                     {loading ? (
                         <>

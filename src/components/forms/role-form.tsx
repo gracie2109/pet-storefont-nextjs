@@ -30,7 +30,11 @@ interface RoleFormProps {
 export function RoleForm({form, submitHandler, permissions, status, createRoleStt, reset, submitStt, mode}: any) {
     const convertPermissions = React.useMemo(() => {
         return groupByPermissions(permissions?.data)
-    }, [permissions?.data])
+    }, [permissions])
+
+
+    console.log("permissions", permissions)
+
 
     const methods = permissions?.methods;
     const countMethodValue = permissions?.countDataOfMethods
@@ -138,10 +142,7 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
             const filterData = singleCheck.filter((i) => i.value !== _id);
             setSingleCheck(filterData)
         }
-
-
     }
-
 
     React.useEffect(() => {
         if (submitStt) {
@@ -155,14 +156,7 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
     }, [submitStt])
 
 
-    // React.useEffect(() => {
-    //     if (mode !== "create" && mounted) {
-    //         const res = checkIdPermissionBelongWith(memoFormPermission);
-    //         setChooseMethod(res); j
-    //     }
-    //
-    // }, [mode, mounted, selectAll])
-
+    console.log("permissions", permissions)
 
     return (
         <>

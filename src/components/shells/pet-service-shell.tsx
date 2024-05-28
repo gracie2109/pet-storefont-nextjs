@@ -31,14 +31,13 @@ export function PetServiceShell({data, params, services, weights}: PetServiceShe
         }
     }, [data, services]);
 
-    console.log("PetServiceShell", data)
 
     return (
         <React.Fragment>
             {mouted && (
                 <>
                     {services.length <= 0 ? (
-                        <Card>
+                        <Card className={"w-1/3"}>
                             <CardHeader>
                                 <CardTitle>Not found services</CardTitle>
                                 <CardDescription>Create new services to continue...</CardDescription>

@@ -8,8 +8,9 @@ import {IPermissionFetchResponse, IRoles} from "@/types/roles";
 
 export const getListRoles = async (): Promise<IRoles[]> => {
     const {payload} = await http.get(endPoint.getListRoles, {
-        next: {tags: ['roles'],
-        revalidate: 360
+        next: {
+            tags: ['roles'],
+            revalidate: 360
         },
     });
     return payload?.data
@@ -42,11 +43,11 @@ export const deleteRole = async (input: string) => {
 }
 
 
-export const createNewRole = async(input:Pick<IRoles, 'name' | 'permissions'>) => {
-    if(!input) return;
+export const createNewRole = async (input: Pick<IRoles, 'name' | 'permissions'>) => {
+    if (!input) return;
     const data = await http.post(endPoint.createRole, input);
-    if(data.status === 200){
-        return revalidateTag('roles')
+    if (data.status === 200) {
+        revalidateTag('roles');
     }
 }
 
