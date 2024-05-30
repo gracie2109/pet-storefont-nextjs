@@ -1,5 +1,5 @@
 export default function SettingPage() {
     return (
-        <>SettingPage</>
+        <div>PageCollections</div>
     )
 }

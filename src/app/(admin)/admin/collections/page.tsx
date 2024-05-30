@@ -1,5 +1,5 @@
 export default function PageCollections() {
     return (
-        <>PageCollections</>
+        <div>PageCollections</div>
     )
 }

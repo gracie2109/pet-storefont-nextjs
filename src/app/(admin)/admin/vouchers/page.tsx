@@ -1,5 +1,5 @@
 export default function PageVouchers() {
     return (
-        <>PageVouchers</>
+        <div>PageCollections</div>
     )
 }
