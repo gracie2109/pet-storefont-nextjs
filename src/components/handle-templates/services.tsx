@@ -10,13 +10,17 @@ import toast from "react-hot-toast";
 import { createService } from "@/api-requests/services"
 import { IService } from "@/types/service";
 import { setValuesOfForm } from "@/lib/helpers";
+import {ServiceTimerShell} from "@/components/service-timer-shell";
 
 interface ServiceHandleTemplateProps {
     params: string,
-    data?: IService
+    data?: IService,
+    weights?:any[],
+    pets?:any[]
+
 }
 
-export function ServiceHandleTemplate({ params, data }: ServiceHandleTemplateProps) {
+export function ServiceHandleTemplate({ params, data, weights,pets}: ServiceHandleTemplateProps) {
 
     const [loading, setLoading] = useState<boolean>(false);
     const form = useForm<serviceEditInfer | serviceInfer>({
@@ -37,11 +41,14 @@ export function ServiceHandleTemplate({ params, data }: ServiceHandleTemplatePro
     }
 
     return (
-        <ServiceForm
-            submitHandler={handleSubmit}
-            form={form}
-            loading={loading}
-            mode={params}
-        />
-    )
+      <>
+          <ServiceForm
+              submitHandler={handleSubmit}
+              form={form}
+              loading={loading}
+              mode={params}
+          />
+      </>
+
+)
 }
