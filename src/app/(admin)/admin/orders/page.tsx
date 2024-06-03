@@ -1,5 +1,5 @@
 export default function PageOrder() {
     return (
-        <>Page Order</>
+        <div>PageCollections</div>
     )
 }

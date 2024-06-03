@@ -18,7 +18,7 @@ interface IParams {
 export default async function RoleHandlePage({params}: IParams) {
     const response = await getDetailRoles(params?.id.toString());
     const permissions = await getPermissions()
-
+    console.log("Permisssions", permissions)
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated>
