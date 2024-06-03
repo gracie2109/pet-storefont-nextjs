@@ -9,6 +9,7 @@ import {RoleForm} from "@/components/forms/role-form";
 import {IPermissionFetchResponse} from "@/types/roles";
 import toast from "react-hot-toast";
 import {createNewRole} from "@/api-requests/roles"
+import { RoleForm2 } from "../forms/role-form-2";
 
 
 interface ServiceHandleTemplateProps {
@@ -55,7 +56,7 @@ export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTem
 
 
     return (
-        <RoleForm
+        <RoleForm2
             submitHandler={handleSubmit}
             form={form}
             mode={params}

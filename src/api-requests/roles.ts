@@ -4,6 +4,7 @@ import http from "@/configs/http"
 import {endPoint} from "@/configs/endpoint";
 import {revalidateTag} from "next/cache";
 import {IPermissionFetchResponse, IRoles} from "@/types/roles";
+import next from "next";
 
 
 export const getListRoles = async (): Promise<IRoles[]> => {
@@ -29,7 +30,7 @@ export const getDetailRoles = async (input: string): Promise<any> => {
 }
 
 export const getPermissions = async (): Promise<IPermissionFetchResponse> => {
-    const {payload} = await http.get(endPoint.getListPermissions);
+    const {payload} = await http.get(endPoint.getListPermissions,{ cache: 'no-cache' });
     return payload?.data
 }
 

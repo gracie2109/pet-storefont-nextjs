@@ -32,11 +32,10 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
         return groupByPermissions(permissions?.data)
     }, [permissions])
 
+    console.log("convertPermissions", convertPermissions)
 
-    console.log("permissions", permissions)
 
-
-    const methods = permissions?.methods;
+    const methods = permissions?.namePer;
     const countMethodValue = permissions?.countDataOfMethods
 
     const [isIndeterminate, setIsIndeterminate] = React.useState<boolean>(false);
@@ -257,7 +256,7 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
                                                                                         >
                                                                                             <FormControl>
                                                                                                 <Checkbox
-                                                                                                    //@ts-ignoreP
+                                                                                                    //@ts-ignore
                                                                                                     data-id={o._id}
                                                                                                     data-pername={o.pername}
                                                                                                     data-name={o.name}
