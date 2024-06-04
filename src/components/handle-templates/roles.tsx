@@ -5,10 +5,10 @@ import {useForm} from "react-hook-form";
 import {roleInit, roleInfer, roleSchema} from "@/validations/roles"
 import {zodResolver} from "@hookform/resolvers/zod";
 import {setValuesOfForm} from "@/lib/helpers";
-import {RoleForm} from "@/components/forms/role-form";
 import {IPermissionFetchResponse} from "@/types/roles";
 import toast from "react-hot-toast";
 import {createNewRole} from "@/api-requests/roles"
+import {RoleForm} from "@/components/forms/role-form";
 
 
 interface ServiceHandleTemplateProps {

@@ -1,167 +1,141 @@
-'use client';
+"use client";
 
-import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import * as React from "react";
-import {Checkbox} from "@/components/ui/checkbox"
+import {Checkbox} from "@/components/ui/checkbox";
 import {ReloadIcon} from "@radix-ui/react-icons";
-import {checkIdPermissionBelongWith, groupByPermissions} from "@/lib/helpers";
+import {
+    getQuantityOfPermission, getUniquePermissions,
+    groupByPermissions,
+    matchingTwoObject
+} from "@/lib/helpers";
 import {
     Table,
     TableBody,
     TableCell,
     TableHead,
     TableHeader,
-    TableRow
-} from "@/components/ui/table"
-import {CheckedState} from "@radix-ui/react-menu";
+    TableRow,
+} from "@/components/ui/table";
 import {UseFormReturn} from "react-hook-form";
-import {useMounted} from "@/hooks/use-mounted";
 
-type CheckboxAll = "indeterminate" | true | false;
 
 interface RoleFormProps {
     form: UseFormReturn<any>,
-
+    onSubmitPermission:(value:any) => void,
+    permissions:any,
+    status:any,
+    createRoleStt:any,
+    reset:any,
+    submitStt:any,
+    mode:any
 }
 
+export function RoleForm({
+                              form,
+                              onSubmitPermission,
+                              permissions,
+                              status,
+                              createRoleStt,
+                              reset,
+                              submitStt,
+                              mode,
+                          }: RoleFormProps) {
 
-export function RoleForm({form, submitHandler, permissions, status, createRoleStt, reset, submitStt, mode}: any) {
-    const convertPermissions = React.useMemo(() => {
-        return groupByPermissions(permissions?.data)
-    }, [permissions])
-
-
-    console.log("permissions", permissions)
-
-
-    const methods = permissions?.methods;
-    const countMethodValue = permissions?.countDataOfMethods
-
-    const [isIndeterminate, setIsIndeterminate] = React.useState<boolean>(false);
-    const [selectAll, setSelectAll] = React.useState<CheckboxAll>(false)
-    const [chooseMethod, setChooseMethod] = React.useState<any[]>([]);
-    const [checkAllDataOfMethod, setCheckAllDataOfMethod] = React.useState(false)
-    const [singleCheck, setSingleCheck] = React.useState<any[]>([])
-    const mounted = useMounted();
+    const [selectAll, setSelectAll] = React.useState<boolean>(false);
+    const [checkedMethods, setCheckedMethods] = React.useState<string[]>([])
 
     const memoFormPermission = React.useMemo(() => {
-        return form.watch("permissions")
-    }, [form.watch("permissions")])
+        return form.getValues("permissions");
+    }, [form.watch("permissions")]);
 
-    const indeterminateValue = React.useMemo(() => {
-        return memoFormPermission?.length > 0 && memoFormPermission?.length !== permissions?.data?.length;
-    }, [memoFormPermission, permissions]);
+    const newPermissions = React.useMemo(() => {
+        return groupByPermissions(permissions?.data);
+    }, [permissions]);
 
-    const selectAllValue = React.useMemo(() => {
-        return memoFormPermission?.length === permissions?.data?.length;
-    }, [memoFormPermission, permissions]);
-
-    const singleCheckvalue = React.useMemo(() => {
-        return (name: string) => {
-            let status: CheckboxAll = false;
-            // @ts-ignore
-            const result = Object.groupBy(singleCheck, ({permissions}) => permissions);
-            const transformedB: any = {};
-            for (const key in result) {
-                if (Object.hasOwnProperty.call(result, key)) {
-                    // @ts-ignore
-                    transformedB[key] = result[key].length;
-                }
-            }
-            if (transformedB?.[name] === undefined) {
-                if (chooseMethod?.includes(name) || selectAll) {
-                    status = true
-                } else if (!chooseMethod?.includes(name) || !selectAll) {
-                    status = false
-                } else {
-                    status = false
-                }
-            } else {
-                if (transformedB?.[name] === countMethodValue?.[name]) {
-                    status = true
-                } else if (transformedB?.[name] < countMethodValue?.[name]) {
-                    status = "indeterminate"
-                } else if (!chooseMethod?.includes(name) || !selectAll) {
-                    status = false
-                } else {
-                    status = false
-                }
-            }
-            return status;
-        };
-    }, [singleCheck, selectAll, chooseMethod]);
-
+    const recordInPermission = React.useMemo(() => {
+        return getQuantityOfPermission(memoFormPermission)
+    }, [memoFormPermission])
+    const matching = React.useMemo(() => {
+        if (permissions) {
+            const data = matchingTwoObject(recordInPermission, permissions?.countDataOfMethods);
+            return data
+        }
+    }, [memoFormPermission]);
 
     React.useEffect(() => {
-        setIsIndeterminate(indeterminateValue);
-        setSelectAll(selectAllValue);
-    }, [memoFormPermission?.length, selectAll]);
+        if (memoFormPermission.length === permissions?.data?.length) {
+            setSelectAll(true);
+        } else {
+            setSelectAll(false);
+        }
+    }, [memoFormPermission]);
 
-
-    const handleSelectAll = () => {
-        if (!selectAll) {
-            const allPermissionIds = permissions && permissions?.data?.map((permission: any) => permission._id);
-            form.setValue("permissions", allPermissionIds);
-            setSingleCheck([]);
-
+    const handleSelectAll = (event: any) => {
+        if (event) {
+            form.setValue(
+                "permissions",
+                permissions?.data
+            );
+            setSelectAll(true);
         } else {
             form.setValue("permissions", []);
+            setSelectAll(false);
         }
-        setSelectAll(!selectAll);
-        setSingleCheck([]);
     };
 
-    React.useEffect(() => {
-        let data2: (string | null)[] = [];
-        chooseMethod && chooseMethod?.map((i, j) => {
-            const elements = document.querySelectorAll(
-                `button[data-pername="${i}"]`
-            );
-            elements.forEach((e) => {
-                const elId = e.getAttribute("data-id");
-                data2.push(elId);
-            });
-
-        });
-        form.setValue("permissions", data2);
-    }, [chooseMethod])
-
-
-    const handleCheckSingle = (status: CheckedState, item: any) => {
-        const {_id, pername} = item
-        const existItem = singleCheck.find((i) => i?.value === _id);
-        if (!existItem && status) {
-            const newData = {
-                value: _id,
-                permissions: pername,
-            }
-            setSingleCheck([...singleCheck, newData])
+    const handleSingleChange = (e: any, m: any) => {
+        if (e) {
+            form.setValue("permissions", [...memoFormPermission, m]);
         } else {
-            const filterData = singleCheck.filter((i) => i.value !== _id);
-            setSingleCheck(filterData)
+            const filterSingle = memoFormPermission?.filter((i: any) => i._id !== m._id);
+            form.setValue("permissions", filterSingle);
         }
+    };
+
+    const handleChooseMethods = (e: any, m: any) => {
+        const inputs = document.querySelectorAll(`button[data-method='${m}']`);
+        const data = [] as any[];
+        inputs.forEach((e) => {
+            const value = e.getAttribute("data-value") as any;
+            data.push(JSON.parse(value))
+        });
+
+        if (e) {
+            const flatmap = memoFormPermission && [...memoFormPermission, ...data].flatMap((i) => i);
+            form.setValue("permissions", flatmap);
+            setCheckedMethods([...checkedMethods, m]);
+        } else {
+            const filterMethods = checkedMethods?.filter((i) => i !== m);
+            setCheckedMethods(filterMethods);
+            const clearPer2 = getUniquePermissions(data, memoFormPermission)
+            form.setValue("permissions", clearPer2);
+        }
+
     }
 
+
     React.useEffect(() => {
-        if (submitStt) {
-            setSingleCheck([]);
-            setCheckAllDataOfMethod(false);
-            setChooseMethod([]);
-            setSelectAll(false);
-            setIsIndeterminate(false);
-            form.reset();
-        }
-    }, [submitStt])
+        matching && setCheckedMethods(matching)
+    }, [matching])
 
 
-    console.log("permissions", permissions)
+
+
 
     return (
         <>
-            <Form {...form}  >
-                <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmitPermission)} className="space-y-8">
                     <FormField
                         control={form.control}
                         name="name"
@@ -176,145 +150,140 @@ export function RoleForm({form, submitHandler, permissions, status, createRoleSt
                         )}
                     />
 
+                    {permissions && (
+                        <>
+                            <div className="check_all_section flex flex-column items-center space-x-2">
+                                <label
+                                    htmlFor="checkall"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    Check All
+                                </label>
+                                <Checkbox
+                                    id="checkall"
+                                    onCheckedChange={handleSelectAll}
+                                    checked={selectAll}
+                                />
+                            </div>
 
-                    {permissions ? (
-                        <FormField
-                            control={form.control}
-                            name="permissions"
-                            render={() => (
-                                <FormItem>
-                                    <div
-                                        className="flex items-center  space-x-2  ">
-                                        <Checkbox
-                                            checked={selectAll || (isIndeterminate ? "indeterminate" : false)}
-                                            onCheckedChange={handleSelectAll}
-                                            id="select-all"
+                            <FormField
+                                control={form.control}
+                                name="permissions"
+                                render={({field}) => {
+                                    return (
+                                        <FormItem>
+                                            <Table
+                                                className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                                <TableHeader
+                                                    className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
+                                                    <TableRow>
+                                                        <TableHead></TableHead>
+                                                        {permissions.namePer?.map((i: any, j: any) => {
 
-                                        />
-                                        <label
-                                            htmlFor="select-all"
-                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                        >
-                                            Select All
-                                        </label>
-                                    </div>
-                                    <Table
-                                        className="table w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                        <TableHeader
-                                            className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 ">
-                                            <TableRow className=" ">
-                                                <TableHead></TableHead>
-                                                {methods && methods?.map((i: any, j: any) => {
-                                                    // @ts-ignore
-                                                    const statusForSpecificName = singleCheckvalue(i) as any;
-
-                                                    return (
-                                                        <TableHead className="" key={j}>
-                                                            <div className="grid gap-y-1.5">
-                                                                {i}
-                                                                <Checkbox
-                                                                    id={i}
-                                                                    data-checkselectallper={i}
-                                                                    checked={statusForSpecificName}
-                                                                    onCheckedChange={(e) => {
-                                                                        const existMethod = chooseMethod.find((m) => m === i);
-                                                                        if (!existMethod) {
-                                                                            setChooseMethod([...chooseMethod, i]);
-                                                                        } else {
-                                                                            const newArr = chooseMethod.filter((m) => m !== i);
-                                                                            setChooseMethod(newArr);
-                                                                        }
-                                                                    }}
-                                                                />
-                                                            </div>
-
-                                                        </TableHead>
-                                                    )
-                                                })}
-                                            </TableRow>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {convertPermissions && convertPermissions?.map((i, j) => {
-                                                const name = Object.keys(i) as any;
-                                                return (
-                                                    <TableRow key={`${j}.${name}`}>
-                                                        <TableCell className="font-bold">{name}</TableCell>
-                                                        {name && i[name]?.map((o: any, jj) => {
                                                             return (
-                                                                <React.Fragment key={`${jj}.${o?._id}.${o?.name}.${j}`}>
-                                                                    {o !== null ? (
-                                                                        <TableCell key={`${jj}.${o?._id}.${o?.name}`}>
-                                                                            <FormField
-                                                                                key={o._id}
-                                                                                control={form.control}
-                                                                                name="permissions"
-                                                                                render={({field}) => {
-                                                                                    // @ts-ignore
-                                                                                    return (
-                                                                                        <FormItem
-                                                                                            key={o._id}
-                                                                                            className="flex flex-row items-start space-x-2 space-y-0 w-28 max-w-28  overflow-ellipsis truncate  "
-                                                                                        >
-                                                                                            <FormControl>
-                                                                                                <Checkbox
-                                                                                                    //@ts-ignoreP
-                                                                                                    data-id={o._id}
-                                                                                                    data-pername={o.pername}
-                                                                                                    data-name={o.name}
-                                                                                                    checked={field.value?.includes(o._id)}
-                                                                                                    onCheckedChange={(checked) => {
-                                                                                                        handleCheckSingle(checked, o);
-
-                                                                                                        return checked
-                                                                                                            ? field.onChange([...field.value, o._id])
-                                                                                                            : field.onChange(
-                                                                                                                field.value?.filter(
-                                                                                                                    (value: any) => value !== o._id
-                                                                                                                )
-                                                                                                            )
-                                                                                                    }}
-                                                                                                />
-                                                                                            </FormControl>
-
-                                                                                        </FormItem>
-                                                                                    )
-                                                                                }}
-                                                                            />
-                                                                        </TableCell>
-                                                                    ) : (
-                                                                        <>
-                                                                            <td key={jj} className="p-2">
-                                                                                <Checkbox disabled={true}/>
-                                                                            </td>
-                                                                        </>
-                                                                    )}
-                                                                </React.Fragment>
+                                                                <TableHead key={j}>
+                                                                    <div className="check_all_section grid gap-2">
+                                                                        <label
+                                                                            htmlFor="checkall"
+                                                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                                                        >
+                                                                            {i}
+                                                                        </label>
+                                                                        <Checkbox id={i}
+                                                                                  data-method_selector={i}
+                                                                                  onCheckedChange={(e) => handleChooseMethods(e, i)}
+                                                                                  checked={checkedMethods.includes(i) ? true : false}
+                                                                        />
+                                                                    </div>
+                                                                </TableHead>
                                                             )
                                                         })}
-
-
                                                     </TableRow>
-                                                )
+                                                </TableHeader>
+
+                                                <TableBody>
+                                                    {newPermissions &&
+                                                        newPermissions?.map((i, j) => {
+                                                            const name = Object.keys(i) as any;
+                                                            return (
+                                                                <TableRow key={`${j}.${name}`}>
+                                                                    <TableCell className="font-bold">
+                                                                        {name}
+                                                                    </TableCell>
+                                                                    {name &&
+                                                                        i[name]?.map((o: any, jj) => {
+                                                                            return (
+                                                                                <React.Fragment
+                                                                                    key={`${jj}.${o?._id}.${o?.name}.${j}`}
+                                                                                >
+                                                                                    {o !== null ? (
+                                                                                        <TableCell
+                                                                                            key={`${jj}.${o?._id}.${o?.name}`}
+                                                                                        >
+                                                                                            <FormField
+                                                                                                key={o._id}
+                                                                                                control={form.control}
+                                                                                                name="permissions"
+                                                                                                render={({field}) => {
+                                                                                                    const checked = field.value?.some((permission: any) => permission.id === o?._id);
+                                                                                                    return (
+                                                                                                        <FormItem
+                                                                                                            key={o._id}
+                                                                                                            className="flex flex-row items-start space-x-2 space-y-0 w-28 max-w-28  overflow-ellipsis truncate  "
+                                                                                                        >
+                                                                                                            <FormControl>
+                                                                                                                <Checkbox
+                                                                                                                    data-id={o._id}
+                                                                                                                    data-value={JSON.stringify(o)}
+                                                                                                                    data-method={o.name.split('.')?.at(-1)}
+                                                                                                                    data-name={o.name}
+                                                                                                                    checked={checked}
+                                                                                                                    onCheckedChange={(e) =>
+                                                                                                                        handleSingleChange(e, o)
+                                                                                                                    }
+
+                                                                                                                />
+                                                                                                            </FormControl>
+                                                                                                        </FormItem>
+                                                                                                    );
+                                                                                                }}
+                                                                                            />
+                                                                                        </TableCell>
+                                                                                    ) : (
+                                                                                        <>
+                                                                                            <td key={jj}
+                                                                                                className="p-2">
+                                                                                                <Checkbox
+                                                                                                    disabled={true}/>
+                                                                                            </td>
+                                                                                        </>
+                                                                                    )}
+                                                                                </React.Fragment>
+                                                                            );
+                                                                        })}
+                                                                </TableRow>
+                                                            );
+                                                        })}
+                                                </TableBody>
+                                            </Table>
+                                        </FormItem>
+                                    )
+                                }
 
 
-                                            })}
-                                        </TableBody>
-                                    </Table>
-                                    <FormMessage/>
-                                </FormItem>
-                            )}
-                        />
-                    ) : null}
+                                }
+                            />
+                        </>
+                    )}
 
-
-                    <Button type="submit" disabled={createRoleStt === "pending" || status === "pending"}>
-                        {createRoleStt === "pending" ? <>  <ReloadIcon className="mr-2 h-4 w-4 animate-spin"/> Please
-                            wait</> : "Submit"}
+                    <Button
+                        type="submit"
+                        disabled={createRoleStt === "pending" || status === "pending"}
+                    >
+                       Submit
                     </Button>
                 </form>
             </Form>
-
-
         </>
-    )
+    );
 }

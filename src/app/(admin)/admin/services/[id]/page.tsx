@@ -7,6 +7,8 @@ import {getDetailService} from "@/api-requests/services";
 import {ResultPageNotification} from "@/components/result-page-notification";
 import {Button} from "@/components/ui/button";
 import {BackLink} from "@/components/back-link";
+import {getListPets, getPetWeights} from "@/api-requests/pets";
+import {ServiceTimerShell} from "@/components/service-timer-shell";
 
 
 interface IParams {
@@ -16,7 +18,10 @@ interface IParams {
 }
 
 export default async function ServiceHandlePage({params}: IParams) {
-    const response = await getDetailService(params?.id.toString())
+    const response = await getDetailService(params?.id.toString());
+    const weights = await getPetWeights();
+    const pets = await getListPets();
+
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated>
@@ -45,11 +50,14 @@ export default async function ServiceHandlePage({params}: IParams) {
                                     </Link>
                                 </ResultPageNotification>
                             ) :
-                            <ServiceHandleTemplate params={params.id.toString()} data={response?.payload?.data}/>
+                            <ServiceHandleTemplate params={params.id.toString()}
+                                                   data={response?.payload?.data}
+                            />
                         }
                     </React.Fragment>
                 )
             }
+
         </Shell>
     )
 }

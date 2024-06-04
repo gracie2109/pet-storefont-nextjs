@@ -7,12 +7,13 @@ import {ReloadIcon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button";
 import {Switch} from "@/components/ui/switch";
 import {convertToVietnamTime} from "@/lib/helpers";
+import {ServiceTimerShell} from "@/components/service-timer-shell";
 
 interface ServiceFormProps {
     submitHandler: (value: any) => void,
     form: any,
     loading: boolean,
-    mode: string
+    mode: string,
 }
 
 export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormProps) {
@@ -85,8 +86,6 @@ export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormPro
 
 
              <div>
-
-                    Time to do for every pey
 
 
 

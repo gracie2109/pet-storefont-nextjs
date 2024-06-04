@@ -110,14 +110,11 @@ interface PageHeaderDescriptionProps
 function PageHeaderDescription({
                                    className,
                                    size,
+                                   as: Comp = "section",
                                    ...props
                                }: PageHeaderDescriptionProps) {
     return (
-        <Balancer
-            as="p"
-            className={cn(descriptionVariants({size, className}))}
-            {...props}
-        />
+        <Balancer ><Comp   className={cn(descriptionVariants({size, className}))} {...props} /></Balancer>
     )
 }
 

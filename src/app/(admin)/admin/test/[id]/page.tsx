@@ -1,11 +1,11 @@
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
 import {Shell} from "@/components/shell";
 import Link from "next/link";
+import {ServiceHandleTemplate} from "@/components/handle-templates/services";
 import * as React from "react";
+import {getDetailService} from "@/api-requests/services";
 import {ResultPageNotification} from "@/components/result-page-notification";
 import {Button} from "@/components/ui/button";
-import {getDetailRoles, getPermissions} from "@/api-requests/roles";
-import {RoleHandleTemplate} from "@/components/handle-templates/roles";
 import {BackLink} from "@/components/back-link";
 
 
@@ -15,42 +15,46 @@ interface IParams {
     }
 }
 
-export default async function RoleHandlePage({params}: IParams) {
-    const response = await getDetailRoles(params?.id.toString());
-    const permissions = await getPermissions();
+export default async function ServiceHandlePageTest({params}: IParams) {
+    const response = await getDetailService(params?.id.toString())
+
+
+
+
+
+
+
+
+
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated>
                 <PageHeader>
                     <PageHeaderHeading
-                        size="sm">Role {params.id === "create" ? "New" : "Detail"}</PageHeaderHeading>
+                        size="sm">Services {params.id === "create" ? "New" : "Detail"}</PageHeaderHeading>
                     <PageHeaderDescription size="sm">
-                        {params.id === "create" ? "Create new role" : "Edit role"}
+                        {params.id === "create" ? "Create new service" : "Edit service"}
                     </PageHeaderDescription>
                 </PageHeader>
-               <BackLink href="/admin/roles" />
+                <BackLink href="/admin/services"/>
             </PageHeaderShell>
-            {params.id.toString() === "create" ?
-                <RoleHandleTemplate params={params.id.toString()} permissions={permissions}/> : (
+            {params.id == "create" ?
+                <ServiceHandleTemplate params={params.id.toString()}/> : (
                     <React.Fragment>
-                        {(response?.status !== 200 || !response.payload.data) ? (
+                        {response?.status !== 200 ? (
                                 <ResultPageNotification
                                     status="404"
                                     title="Something went wrong!"
                                     subtitle={response?.payload?.error ?? ""}
                                 >
-                                    <Link href="/admin/roles/create">
+                                    <Link href="/admin/services/create">
                                         <Button size="sm">
                                             Create new
                                         </Button>
                                     </Link>
                                 </ResultPageNotification>
                             ) :
-                            <RoleHandleTemplate
-                                params={params.id.toString()}
-                                data={response?.payload?.data}
-                                permissions={permissions}
-                            />
+                            <ServiceHandleTemplate params={params.id.toString()} data={response?.payload?.data}/>
                         }
                     </React.Fragment>
                 )

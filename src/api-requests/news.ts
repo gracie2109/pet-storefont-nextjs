@@ -26,7 +26,7 @@ export const getListPost = async () => {
     const data = await http.get(endPoint.getListPost, {
         next: {
             tags: ['post'],
-            revalidate: 10
+            revalidate: 100
         },
     });
     return data

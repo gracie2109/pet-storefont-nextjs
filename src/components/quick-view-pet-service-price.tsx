@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet"
 
 import React from "react";
-import {PetServiceListPrice} from "@/components/shells/pet-service-list-price";
+import {PetServiceListPrice} from "@/components/pet-service-list-price";
 
 
 export function QuickViewPetServicePrice({pet, weights, petId}:{pet:any, weights:any, petId:any}) {

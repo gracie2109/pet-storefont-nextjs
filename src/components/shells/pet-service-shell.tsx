@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import {usePathname, useRouter} from "next/navigation";
 import {BackLink} from "@/components/back-link";
 import {ServicesCard} from "@/components/cards/services-card";
-import {PetServiceListPrice} from "@/components/shells/pet-service-list-price";
+import {PetServiceListPrice} from "@/components/pet-service-list-price";
 import {useMounted} from "@/hooks/use-mounted";
 
 interface PetServiceShellProps {

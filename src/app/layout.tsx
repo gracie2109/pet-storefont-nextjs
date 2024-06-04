@@ -1,19 +1,20 @@
-import type { Metadata } from "next";
-import { Lexend } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider"
-import { Toaster } from "react-hot-toast";
+import type {Metadata} from "next";
+import {Lexend} from "next/font/google";
+import {ThemeProvider} from "@/components/theme-provider"
+import {Toaster} from "react-hot-toast";
 import * as React from "react";
-import { TailwindIndicator } from "@/components/tailwind-indicator"
+import {TailwindIndicator} from "@/components/tailwind-indicator"
 import "./globals.css";
 import {absoluteUrl, cn} from "@/lib/utils";
-
+import {Provider} from 'jotai';
 
 const lexend = Lexend({
     subsets: ['latin'],
     display: 'swap',
 })
 
-import { siteConfig } from "@/configs/site-config"
+import {siteConfig} from "@/configs/site-config"
+
 export const metadata: Metadata = {
     metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
     title: {
@@ -57,33 +58,35 @@ export const metadata: Metadata = {
     manifest: absoluteUrl("/site.webmanifest"),
 }
 export default function RootLayout({
-    children,
-}: Readonly<{
+                                       children,
+                                   }: Readonly<{
     children: React.ReactNode;
 }>) {
 
     return (
         <html lang="en" suppressHydrationWarning suppressContentEditableWarning>
-            <body
-                className={cn(
-                    "min-h-screen bg-background font-sans antialiased",
-                    lexend.className,
-                )}
+        <body
+            className={cn(
+                "min-h-screen bg-background font-sans antialiased",
+                lexend.className,
+            )}
 
+        >
+        <Provider>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
             >
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <React.Fragment>
-                        {children}
-                        <TailwindIndicator />
-                        <Toaster />
-                    </React.Fragment>
-                </ThemeProvider>
-            </body>
+                <React.Fragment>
+                    {children}
+                    <TailwindIndicator/>
+                    <Toaster/>
+                </React.Fragment>
+            </ThemeProvider>
+        </Provider>
+        </body>
         </html>
     );
 }
