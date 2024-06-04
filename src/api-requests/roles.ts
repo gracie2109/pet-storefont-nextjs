@@ -21,7 +21,8 @@ export const getListRoles = async (): Promise<IRoles[]> => {
 export const getDetailRoles = async (input: string): Promise<any> => {
     if (input && input !== "create") {
         return await http.get(`${endPoint.getDetailRole}/${input}`, {
-            next: {tags: ['roles', input]}
+            next: {tags: ['roles', input]},
+            cache: 'no-cache'
         });
 
     } else {
@@ -44,7 +45,7 @@ export const deleteRole = async (input: string) => {
 }
 
 
-export const createNewRole = async (input: Pick<IRoles, 'name' | 'permissions'>) => {
+export const createNewRole = async (input: any) => {
     if (!input) return;
     const data = await http.post(endPoint.createRole, input);
     if (data.status === 200) {
@@ -52,3 +53,10 @@ export const createNewRole = async (input: Pick<IRoles, 'name' | 'permissions'>)
     }
 }
 
+export const updateRole = async (input: string) => {
+    if (!input) return;
+    const data = await http.patch(endPoint.updateRole, input,{ cache: 'no-cache' });
+    if (data.status === 200) {
+        revalidateTag(['roles', input.id]);
+    }
+}
