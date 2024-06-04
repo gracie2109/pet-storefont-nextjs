@@ -17,8 +17,7 @@ interface IParams {
 
 export default async function RoleHandlePage({params}: IParams) {
     const response = await getDetailRoles(params?.id.toString());
-    const permissions = await getPermissions()
-    console.log("Permisssions", permissions)
+    const permissions = await getPermissions();
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated>
@@ -31,7 +30,7 @@ export default async function RoleHandlePage({params}: IParams) {
                 </PageHeader>
                <BackLink href="/admin/roles" />
             </PageHeaderShell>
-            {params.id == "create" ?
+            {params.id.toString() === "create" ?
                 <RoleHandleTemplate params={params.id.toString()} permissions={permissions}/> : (
                     <React.Fragment>
                         {(response?.status !== 200 || !response.payload.data) ? (
