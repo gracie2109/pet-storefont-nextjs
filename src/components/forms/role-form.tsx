@@ -130,8 +130,6 @@ export function RoleForm({
 
 
 
-
-
     return (
         <>
             <Form {...form}>
@@ -248,6 +246,7 @@ export function RoleForm({
                                                                                                     );
                                                                                                 }}
                                                                                             />
+                                                                                          
                                                                                         </TableCell>
                                                                                     ) : (
                                                                                         <>
@@ -266,6 +265,7 @@ export function RoleForm({
                                                         })}
                                                 </TableBody>
                                             </Table>
+                                            <FormMessage/>
                                         </FormItem>
                                     )
                                 }
@@ -273,6 +273,7 @@ export function RoleForm({
 
                                 }
                             />
+                        
                         </>
                     )}
 

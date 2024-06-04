@@ -6,7 +6,7 @@ export const roleSchema = z.object({
     name: z.string().min(2, {
         message: "Role name must be at least 2 characters.",
     }),
-    permissions: z.array(z.string()).nonempty({
+    permissions: z.array(z.any()).nonempty({
         message: "Permissions must be at least 1 item"
     }),
 })

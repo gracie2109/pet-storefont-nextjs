@@ -7,7 +7,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {setValuesOfForm} from "@/lib/helpers";
 import {IPermissionFetchResponse} from "@/types/roles";
 import toast from "react-hot-toast";
-import {createNewRole} from "@/api-requests/roles"
+import {createNewRole, updateRole} from "@/api-requests/roles"
 import {RoleForm} from "@/components/forms/role-form";
 
 
@@ -26,21 +26,36 @@ export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTem
 
 
     const handleSubmit =  (values: any) => {
+        console.log("submit", values, typeof values)
         if(params == "create"){
             toast.promise((createNewRole(values)), {
                 loading: "Creating...",
                 error:(err:any) => {
                     console.log("err", err);
-                    setSend(true)
                     return "Creat role fail!"
                 },
                 success: (data: any) => {
                     console.log("success", data);
+                    form.reset()
+                    return "Create role success!"
+                }
+            })
+        }else{
+            const payload = {...values, id:params}
+       
+            toast.promise((updateRole(payload)), {
+                loading: "Creating...",
+                error:(err:any) => {
+                    console.log("err", err);
+                    return "Creat role fail!"
+                },
+                success: (data: any) => {
+                    console.log("success", data);
+                    form.reset()
                     return "Create role success!"
                 }
             })
         }
-
     }
 
     React.useEffect(() => {
@@ -56,11 +71,14 @@ export function RoleHandleTemplate({params, data, permissions}: ServiceHandleTem
 
     return (
         <RoleForm
-            submitHandler={handleSubmit}
+            onSubmitPermission={handleSubmit}
             form={form}
             mode={params}
             permissions={permissions}
             submitStt={send}
+            createRoleStt={""}
+            reset={""}
+            status={""}
 
         />
     )
