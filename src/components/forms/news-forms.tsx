@@ -99,25 +99,7 @@ export function NewsForms({form, submitHandler, loading, mode, images, setImages
                             </FormItem>
                         )}
                     />
-                    {mode && mode !== "create" &&
-                        <FormField
-                            control={form.control}
-                            name="status"
-                            render={({field}) => (
-                                <FormItem
-                                    className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                                    <div className="space-y-0.5">
-                                        <FormLabel>Status</FormLabel>
-                                    </div>
-                                    <FormControl>
-                                        <Switch
-                                            checked={field.value}
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />}
+
 
                 </div>
                 <FormField
@@ -133,6 +115,25 @@ export function NewsForms({form, submitHandler, loading, mode, images, setImages
                         </FormItem>
                     )}
                 />
+                {mode && mode !== "create" &&
+                    <FormField
+                        control={form.control}
+                        name="status"
+                        render={({field}) => (
+                            <FormItem
+                                className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                                <div className="space-y-0.5">
+                                    <FormLabel>Status</FormLabel>
+                                </div>
+                                <FormControl>
+                                    <Switch
+                                        checked={field.value}
+                                        onCheckedChange={field.onChange}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />}
                 <FormField
                     control={form.control}
                     name="tags"

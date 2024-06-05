@@ -3,7 +3,7 @@ import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} f
 import {Shell} from "@/components/shell";
 import {RolesShell} from "@/components/shells/roles-shell";
 import {getListRoles} from "@/api-requests/roles";
-
+import {useSetAtom} from "jotai"
 export default async function RolesPage() {
     const data = await getListRoles()
 
