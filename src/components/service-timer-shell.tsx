@@ -15,18 +15,19 @@ interface Props {
 }
 
 export function ServiceTimerShell({weights, pets,form}: Props) {
-    const { fields,append, prepend,  } = useFieldArray({
+    const { fields,append, prepend,  replace} = useFieldArray({
         name: "serviceTime",
         control: form.control,
     });
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         if(pets && weights){
             const newRow = generateServiceTimeRow(pets, weights);
-            console.log("new",newRow)
-            prepend(newRow)
+            if (newRow) {
+                replace(newRow[0] as any)
+            }
         }
-    },[pets,weights])
-    console.log('fields', fields)
+    },[pets,weights]);
+
     return (
         <div>
 
@@ -48,40 +49,34 @@ export function ServiceTimerShell({weights, pets,form}: Props) {
                     </thead>
                     <tbody>
 
-
-
                     <>
-
                         {weights?.map((i: any, ii: any) => (
                             <tr key={ii} className="relative">
                                 <td className="border border-orange-400 p-2">{i?.name}</td>
                                 {pets?.map((j: any, jj: any) => (
                                     <td key={jj} className="border border-orange-400">
-
                                         {fields.map((field, index) => (
                                         <FormField
                                             control={form.control}
-                                            name={`serviceTime.${index}.${j.id}.${i.id}.value`}
-                                            key={field.id}
+                                            name={`serviceTime.${index}.${j._id}.${i._id}.value`}
+                                            key={`serviceTime_index_${index}.${field}`}
                                             render={({field}) => {
                                                 return (
                                                     <>
                                                         <FormItem>
                                                             <FormControl>
-
                                                                 <div className="relative">
                                                                     <Input
                                                                         type="number"
-                                                                        className="p-1 border rounded-none relative "
+                                                                        className="p-1  rounded-none relative w-[300px]"
                                                                         data-pet={j.id}
                                                                         data-weights={i.id}
                                                                         {...field}
                                                                         value={field.value ?? ""}
-
                                                                     />
                                                                     <small
                                                                         className={cn('text-[8px] absolute right-2 bottom-0')}>
-                                                                        {convertToVietnamTime(form.watch(`serviceTime.${j._id}.${i._id}`), "string")}
+                                                                        {!field.value ? convertToVietnamTime(form.watch(`serviceTime.${index}.${j._id}.${i._id}.value`), "string"): convertToVietnamTime(field.value, "string")}
                                                                     </small>
                                                                 </div>
 
@@ -105,7 +100,6 @@ export function ServiceTimerShell({weights, pets,form}: Props) {
                             </tr>
                         ))}
                     </>
-
 
                     </tbody>
                 </table>

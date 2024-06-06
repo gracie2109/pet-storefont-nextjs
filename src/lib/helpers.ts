@@ -243,7 +243,10 @@ export function onImageUploadBeforeSunEdior(folder: string) {
 export function generateServiceTimeRow(pets:any[], weights:any[]) {
     if(!(pets || !weights)) return null;
     return pets.map(pet => {
-        const petData = { [pet._id]: weights.map(weight => ({ [weight._id]: {value: undefined}})) };
-        return petData;
+        const weightData = weights.reduce((acc, weight) => {
+            acc[weight._id] = { value: null };
+            return acc;
+        }, {});
+        return { [pet._id]: weightData };
     });
 }

@@ -36,15 +36,13 @@ export function ServiceHandleTemplate({params, data, weights, pets}: ServiceHand
     }, [data, params])
 
     const handleSubmit = async (values: any) => {
-        // await createService(values)
-        //     .then((data) => {
-        //         console.log("success", data)
-        //         form.reset()
-        //     }).catch((err) => {
-        //         console.log("error", err)
-        //     })
-
-        console.log("values", values)
+        await createService(values)
+            .then((data) => {
+                console.log("success", data)
+                form.reset()
+            }).catch((err) => {
+                console.log("error", err)
+            })
     }
 
     return (
