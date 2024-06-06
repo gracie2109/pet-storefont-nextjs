@@ -1,23 +1,22 @@
 
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
 import {Shell} from "@/components/shell";
-import {RolesShell} from "@/components/shells/roles-shell";
-import {getListRoles} from "@/api-requests/roles";
-
-export default async function RolesPage() {
-    const data = await getListRoles()
+import {BrandsShell} from "@/components/shells/brands-shell";
+import {getListBrands} from "@/api-requests/brands";
+export default async function PageBrands() {
+    const data = await getListBrands()
 
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated >
                 <PageHeader>
-                    <PageHeaderHeading size="sm">Roles</PageHeaderHeading>
+                    <PageHeaderHeading size="sm">Brands</PageHeaderHeading>
                     <PageHeaderDescription size="sm">
-                        Manage your roles
+                        Manage your brands
                     </PageHeaderDescription>
                 </PageHeader>
             </PageHeaderShell>
-            <RolesShell data={data} />
+            {data.status === 200 ? <BrandsShell data={data.payload.data}/> :"Something went wrong"}
         </Shell>
     )
 }

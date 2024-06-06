@@ -32,6 +32,9 @@ export const setValuesOfForm = (data: any, form: UseFormReturn<any>) => {
 };
 
 export function convertToVietnamTime(minutes: number, mode: "single" | "string", showHour: boolean = true): any {
+
+    if(!minutes) return '0m';
+
     let hours: number = Math.floor(minutes / 60);
     minutes %= 60;
     if (minutes <= 60 && mode === "single") return hours + minutes / 60;
@@ -236,3 +239,14 @@ export function onImageUploadBeforeSunEdior(folder: string) {
     };
 }
 
+
+export function generateServiceTimeRow(pets:any[], weights:any[]) {
+    if(!(pets || !weights)) return null;
+    return pets.map(pet => {
+        const weightData = weights.reduce((acc, weight) => {
+            acc[weight._id] = { value: null };
+            return acc;
+        }, {});
+        return { [pet._id]: weightData };
+    });
+}

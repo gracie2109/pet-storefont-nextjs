@@ -8,17 +8,25 @@ import {Button} from "@/components/ui/button";
 import {Switch} from "@/components/ui/switch";
 import {convertToVietnamTime} from "@/lib/helpers";
 import {ServiceTimerShell} from "@/components/service-timer-shell";
+import {useMounted} from "@/hooks/use-mounted";
+import {useFieldArray, Controller} from "react-hook-form";
 
 interface ServiceFormProps {
     submitHandler: (value: any) => void,
     form: any,
     loading: boolean,
     mode: string,
+    pets:any[],
+    weights:any[]
 }
 
-export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormProps) {
+export function ServiceForm({submitHandler, form, loading, mode,pets,weights}: ServiceFormProps) {
+    const mounted = useMounted();
 
-    return (
+
+
+
+   if(mounted) return (
         <Form {...form}  >
             <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-8">
                 <FormField
@@ -48,22 +56,7 @@ export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormPro
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="minTimeToDo"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>Time to do</FormLabel>
-                            <FormControl>
-                                <Input  type="number" placeholder="desc" {...field} />
-                            </FormControl>
-                            <FormDescription>Enter min time to do this service <br/>
-                                {convertToVietnamTime(form.watch("minTimeToDo"), "string")}
-                            </FormDescription>
-                            <FormMessage/>
-                        </FormItem>
-                    )}
-                />
+
                 {mode !== "create" &&
                     <FormField
                         control={form.control}
@@ -86,9 +79,10 @@ export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormPro
 
 
              <div>
+            <div>
 
-
-
+                <ServiceTimerShell form={form} weights={weights} pets={pets}  />
+            </div>
              </div>
                 <Button type="submit" disabled={loading}>
                     {loading ? (
@@ -101,5 +95,5 @@ export function ServiceForm({submitHandler, form, loading, mode}: ServiceFormPro
                 </Button>
             </form>
         </Form>
-    )
+   )
 }

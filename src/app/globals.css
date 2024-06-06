@@ -96,3 +96,8 @@
   @apply  relative before:absolute before:content-['']  before:left-0 before:bottom-[-0.5rem] before:w-[30px] before:h-[4px]
 before:bg-primary before:rounded-sm
 }
+
+
+.sun-editor .se-dialog .se-dialog-inner .se-dialog-content {
+top:5rem !important;
+}

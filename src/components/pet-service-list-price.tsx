@@ -1,5 +1,5 @@
 import {formatPrice} from "@/lib/helpers";
-
+import * as React from "react";
 export function PetServiceListPrice({services, weights, petId}: {
     services: any,
     weights: any[],
@@ -45,7 +45,7 @@ export function PetServiceListPrice({services, weights, petId}: {
                                                     {services?.data[key]?.map((service: any, serviceIndex: any) => {
                                                         if (service.weightId?.id === weight.id) {
                                                             return (
-                                                                <div key={`${index}-${serviceIndex}`}
+                                                                <React.Fragment key={`${index}-${serviceIndex}`}
                                                                    >
                                                                     <div className="h-[41px] w-full ">
                                                                         <input disabled
@@ -53,7 +53,7 @@ export function PetServiceListPrice({services, weights, petId}: {
                                                                                type="text" readOnly={true}
                                                                                value={service?.price ? formatPrice(service?.price) : ""}/>
                                                                     </div>
-                                                                </div>
+                                                                </React.Fragment>
                                                             )
                                                         } else {
                                                             return <td key={`${index}-${serviceIndex}`}></td>;
