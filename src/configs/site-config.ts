@@ -53,7 +53,9 @@ export const siteConfig = {
             title: "Products",
             href: "/admin/products",
             description: "All the products we have to offer.",
-            items: [],
+            items: [
+
+            ],
         },
         {
             title: "Roles",

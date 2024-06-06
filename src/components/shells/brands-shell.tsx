@@ -6,12 +6,10 @@ import {Checkbox} from "@/components/ui/checkbox";
 import {DataTableColumnHeader} from "@/components/data-tables/column-header";
 import Link from "next/link";
 import {Badge} from "@/components/ui/badge";
-import {Edit, Trash} from "lucide-react";
+import {Edit, Shirt} from "lucide-react";
 import {usePathname, useRouter} from "next/navigation";
 import {DataTableRaw} from "@/components/data-tables";
 import {Button} from "@/components/ui/button";
-import {toast} from "react-hot-toast";
-import {AlertDialogC} from "@/components/alert-dialog-c";
 import {IBrands} from "@/types/brands";
 import Image from "next/image";
 import {fallbackImage} from "@/lib/contants";
@@ -131,13 +129,12 @@ export function BrandsShell(props: BrandsShellProps) {
                             <Edit className="mr-2 h-4 w-4"/> Edit
                         </Button>
                         <Button variant="link" onClick={() => {
-                            setOpenDialog(true);
-                            setDeleteItem(row.original)
+                            startTransition(() => {
+                                router.push(`${pathname}/${row.original.id}/products`)
+                            })
                         }}>
-                            <Trash className="mr-2 h-4 w-4 text-red-600"/>
+                            <Shirt className="mr-2 h-4 w-4"/> Product
                         </Button>
-
-
                     </div>
                 ),
             },
@@ -145,14 +142,8 @@ export function BrandsShell(props: BrandsShellProps) {
         [props.data]
     );
 
-    const deleteRoleFnc = () => {
-        console.log("Delete Role Fnc",deleteItem?._id);
-    };
+
     return (
-
-        <>
-
-
             <DataTableRaw
                 columns={columns}
                 data={props.data}
@@ -166,15 +157,5 @@ export function BrandsShell(props: BrandsShellProps) {
                 ]}
 
             />
-            {openDialog && (
-                <AlertDialogC
-                    open={openDialog}
-                    setOpen={setOpenDialog}
-                    handleOk={() => void deleteRoleFnc()}
-                    title={`delete brand: ${deleteItem?.name}`}
-                />
-            )}
-
-        </>
     )
 }

@@ -1,6 +1,7 @@
 import {Shell} from "@/components/shell";
 import {PageHeader, PageHeaderDescription, PageHeaderHeading, PageHeaderShell} from "@/components/page-header";
 import {ProductShell} from "@/components/shells/product-shell";
+import Link from "next/link";
 
 export default async function  PagePoductList () {
     return (
@@ -14,6 +15,7 @@ export default async function  PagePoductList () {
                 </PageHeader>
             </PageHeaderShell>
             <ProductShell  data={[]}/>
+            <Link href="/admin/product/create">New Product</Link>
         </Shell>
     )
 }
