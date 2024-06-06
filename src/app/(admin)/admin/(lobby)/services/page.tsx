@@ -5,7 +5,7 @@ import {getListServices} from "@/api-requests/services";
 
 export default async function ServicePageAdmin() {
     const result = await getListServices();
-
+    console.log('result',result);
     return (
         <Shell variant="sidebar">
             <PageHeaderShell separated>

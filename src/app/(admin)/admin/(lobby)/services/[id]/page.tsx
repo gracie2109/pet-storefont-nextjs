@@ -35,7 +35,14 @@ export default async function ServiceHandlePage({params}: IParams) {
                 <BackLink href="/admin/services"/>
             </PageHeaderShell>
             {params.id == "create" ?
-                <ServiceHandleTemplate params={params.id.toString()}/> : (
+                (<>
+                    <ServiceHandleTemplate params={params.id.toString()}
+                                           weights={weights?.payload?.data || []}
+                                           pets={pets?.payload?.data || []}
+                    />
+
+
+                </>): (
                     <React.Fragment>
                         {response?.status !== 200 ? (
                                 <ResultPageNotification
@@ -50,9 +57,15 @@ export default async function ServiceHandlePage({params}: IParams) {
                                     </Link>
                                 </ResultPageNotification>
                             ) :
-                            <ServiceHandleTemplate params={params.id.toString()}
-                                                   data={response?.payload?.data}
-                            />
+                           (<>
+                               <ServiceHandleTemplate params={params.id.toString()}
+                                                      data={response?.payload?.data}weights={weights?.payload?.data || []}
+                                                      pets={pets?.payload?.data || []}
+
+                               />
+
+
+                           </>)
                         }
                     </React.Fragment>
                 )
