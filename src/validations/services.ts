@@ -2,8 +2,8 @@ import {z} from "zod";
 
 export const serviceSchema = z.object({
     name: z.string().min(2, {message: 'Name is required'}),
-    desc:z.string().optional(),
-    serviceTime:z.any()
+    desc:z.string().min(2,{message: 'Description is required'}),
+    serviceTime:z.array(z.any())
 })
 
 export const serviceEditSchema = z.object({
