@@ -74,6 +74,12 @@ export const siteConfig = {
             items: [],
         },
         {
+            title: "Brands",
+            href: "/admin/brands",
+            description: "All the brands we have",
+            items: [],
+        },
+        {
             title: "Collections",
             href: "/admin/collections",
             description: "All the roles we have",
