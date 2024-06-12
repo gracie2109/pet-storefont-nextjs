@@ -31,7 +31,7 @@ const RichTextEditor = React.forwardRef<
                     setOptions={optionsMenmo}
                     {...field}
                     {...props}
-                    setContents={field.value ? field.value : ""}
+                    setContents={field.value ?? ""}
                     onImageUploadBefore={onImageUploadBeforeSunEdior("petshop/products")}
                     height="50vh"
 

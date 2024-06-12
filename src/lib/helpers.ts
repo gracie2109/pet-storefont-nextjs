@@ -127,9 +127,6 @@ export function matchingTwoObject(obj1: any, ob2: any): any[] {
 }
 
 
-
-
-
 export function getUniquePermissions(array1:any, array2:any) {
     const setA = new Set(array1.map((item:any) => item._id));
     const uniqueElements = array2.filter((item:any) => {
@@ -249,4 +246,10 @@ export function generateServiceTimeRow(pets:any[], weights:any[]) {
         }, {});
         return { [pet._id]: weightData };
     });
+}
+
+
+export const profitAndMarginAlg = (sale_price:number, cost_price: number,  puschase_price:number ) => {
+    if(!(sale_price && cost_price && puschase_price)) return null;
+    return Number(sale_price - puschase_price);
 }
