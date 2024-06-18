@@ -25,6 +25,10 @@ const tabsLink = [
     {
         name: "Transaction",
         href:"transaction"
+    },
+    {
+        name: "Schedule",
+        href:"schedule"
     }
 ]
 
@@ -39,7 +43,7 @@ export default function ProfileLayout({children}: {children: ReactNode}) {
     return (
         <div>
             <Shell variant="sidebar">
-                <div className={clsx("grid 2xl:grid-cols-5 gap-3 h-screen relative  will-change-auto", {
+                <div className={clsx("grid 2xl:grid-cols-5 gap-8 h-screen relative  will-change-auto", {
                     "hidden": showSegment
                 })}>
                     <div className="col-span-1  border-r-4 border-primary-foreground">
@@ -76,7 +80,7 @@ export default function ProfileLayout({children}: {children: ReactNode}) {
                         </Shell>
                     </div>
                     <div className="2xl:col-span-4">
-                        <div className={"flex gap-3 items-center bg-slate-50 h-12"}>
+                        <div className={"flex gap-8 items-center bg-slate-50 h-12"}>
                             {tabsLink.map((i) => <Link href={`/profile/${i.href}`} key={i.name}
                                                        className={clsx("capitalize font-bold ", {
                                                            "text-red-600": segment.includes(i.href) || (segment.length === 1 && i.hasOwnProperty("special")),

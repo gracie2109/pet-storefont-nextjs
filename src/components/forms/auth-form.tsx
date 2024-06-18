@@ -61,7 +61,6 @@ export function AuthForm() {
                         return "Login error"
                     }
                 })
-
             }
 
         } catch (err) {
