@@ -32,6 +32,9 @@ export const setValuesOfForm = (data: any, form: UseFormReturn<any>) => {
 };
 
 export function convertToVietnamTime(minutes: number, mode: "single" | "string", showHour: boolean = true): any {
+
+    if(!minutes) return '0m';
+
     let hours: number = Math.floor(minutes / 60);
     minutes %= 60;
     if (minutes <= 60 && mode === "single") return hours + minutes / 60;
@@ -122,9 +125,6 @@ export function matchingTwoObject(obj1: any, ob2: any): any[] {
     }
     return matchingKeys;
 }
-
-
-
 
 
 export function getUniquePermissions(array1:any, array2:any) {
@@ -236,3 +236,40 @@ export function onImageUploadBeforeSunEdior(folder: string) {
     };
 }
 
+
+export function generateServiceTimeRow(pets:any[], weights:any[]) {
+    if(!(pets || !weights)) return null;
+    return pets.map(pet => {
+        const weightData = weights.reduce((acc, weight) => {
+            acc[weight._id] = { value: null };
+            return acc;
+        }, {});
+        return { [pet._id]: weightData };
+    });
+}
+
+
+export const profitAndMarginAlg = (sale_price:number, cost_price: number,  puschase_price:number ) => {
+    if(!(sale_price && cost_price && puschase_price)) return null;
+    return Number(sale_price - puschase_price);
+}
+
+export const getChangesServiceTime = (data:any[]) => {
+    if(!data) return [];
+
+    return data.reduce((result:any, item:any) => {
+        const newItem:any = {};
+        for (const key in item) {
+            const valueObject = item[key];
+            const newValueObject:any = {};
+            for (const subKey in valueObject) {
+                const value = valueObject[subKey].value;
+                if (typeof value === 'string') newValueObject[subKey] = { value }
+            }
+            if (Object.keys(newValueObject).length > 0) newItem[key] = newValueObject;
+        }
+        if (Object.keys(newItem).length > 0) result.push(newItem);
+
+        return result;
+    }, []);
+}

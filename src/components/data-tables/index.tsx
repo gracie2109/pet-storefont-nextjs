@@ -104,7 +104,7 @@ export function DataTableRaw<TData, TValue>({
             />}
 
             <div className="rounded-md border">
-                <Table>
+                {table && <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={`${headerGroup.id}.${id}`}>
@@ -124,7 +124,7 @@ export function DataTableRaw<TData, TValue>({
                         ))}
                     </TableHeader>
                     <TableBody key={`table_body_${id}`}>
-                        {table?.getRowModel()?.rows?.length > 0 ? (
+                        {table.getRowModel()?.rows?.length > 0 ? (
                             table.getRowModel().rows.map((row) => (
 
                                     <TableRow
@@ -153,7 +153,7 @@ export function DataTableRaw<TData, TValue>({
                             </TableRow>
                         )}
                     </TableBody>
-                </Table>
+                </Table>}
             </div>
             <div className="w-full overflow-hidden flex items-center">
                 <DataTablePagination table={table} showRowPerPage={false}/>

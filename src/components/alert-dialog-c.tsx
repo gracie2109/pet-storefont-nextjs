@@ -34,7 +34,7 @@ export function AlertDialogC({open, okText, subtitle, title, handleOk, setOpen}:
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => {  setOpen(false) }}>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel onClick={() => {setOpen(!open) }}>Cancel</AlertDialogCancel>
                     <AlertDialogAction onClick={handleOk}>
                         {okText ? okText : "Continute"}
                     </AlertDialogAction>

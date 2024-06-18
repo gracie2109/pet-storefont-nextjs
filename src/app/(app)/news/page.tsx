@@ -12,7 +12,7 @@ import Link from "next/link";
 export default  async function PageNewsList() {
     const post = await getListPost();
     const data = (post.payload.data.flatMap((i:any) => i.tags)?.map((j:SelectOptions) => j.value));
-    const allTags = Array.from(new Set(data))
+    const allTags = [...new Set(data)]
 
     if(post.payload.data.length > 0){
     return (

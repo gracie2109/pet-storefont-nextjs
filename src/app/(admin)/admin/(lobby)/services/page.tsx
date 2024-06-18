@@ -18,7 +18,8 @@ export default async function ServicePageAdmin() {
 
             </PageHeaderShell>
 
-             <ServicesShell status={result.status} data={result?.payload?.data} pets={result?.payload?.pets}/>
+                <ServicesShell status={result.status} data={result?.payload?.data} pets={result?.payload?.pets}/>
+
         </Shell>
     )
 }

@@ -51,3 +51,8 @@ export const recoverPasswordSchema = z.object({
 
 }).merge(passWordAndConfirmSchema).superRefine(passWordCheck);
 
+
+
+export const profileChangePassword = z.object({
+    oldPassword: z.string().min(5, {message: "Old password"})
+}).merge(passWordAndConfirmSchema).superRefine(passWordCheck);

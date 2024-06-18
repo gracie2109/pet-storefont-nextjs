@@ -1,7 +1,6 @@
 
 import { redirect } from 'next/navigation';
-const BACKEND_FAIL = "SERVER_FAIL"; // Đặt giá trị mặc định cho trường hợp máy chủ lỗi
-
+const BACKEND_FAIL = "SERVER_FAIL"; // Đặt giá trị mặc định cho trường hợp máy ch
 const request = async <Response>(
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     url: string,
@@ -16,7 +15,7 @@ const request = async <Response>(
 
 
     const fullUrl = `${baseUrl}${url}`;
-    // try {
+    try {
         const res = await fetch(fullUrl, {
             ...options,
             headers: {
@@ -33,12 +32,13 @@ const request = async <Response>(
             payload,
         };
         return data;
-    // } catch (error:any) {
-    //     return {
-    //         status: 500, // Mã lỗi HTTP 500 cho lỗi máy chủ
-    //         payload: { error: BACKEND_FAIL }, // Trả về thông báo mặc định cho lỗi máy chủ
-    //     };
-    // }
+    } catch (error:any) {
+            console.log("server err, please rétart")
+        return {
+            status: 800, // Mã lỗi HTTP 500 cho lỗi máy chủ
+            payload: { error: BACKEND_FAIL }, // Trả về thông báo mặc định cho lỗi máy chủ
+        };
+    }
 };
 
 const http = {

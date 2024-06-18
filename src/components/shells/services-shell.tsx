@@ -104,16 +104,7 @@ export function ServicesShell(props: ServicesShellProps) {
                     )
                 },
             },
-            {
-                accessorKey: "minTimeToDo",
-                header: ({column}) => (
-                    <DataTableColumnHeader column={column} title="Time "/>
-                ),
-                cell: ({row}) => {
-                    const newTime = convertToVietnamTime(row.original.minTimeToDo, "string");
-                    return <p>{newTime}</p>
-                },
-            },
+
             {
                 accessorKey: "status",
                 header: ({column}) => {

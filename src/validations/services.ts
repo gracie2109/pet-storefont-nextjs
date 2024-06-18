@@ -2,8 +2,8 @@ import {z} from "zod";
 
 export const serviceSchema = z.object({
     name: z.string().min(2, {message: 'Name is required'}),
-    desc:z.string().optional(),
-    minTimeToDo:z.string().min(1)
+    desc:z.string().min(2,{message: 'Description is required'}),
+    serviceTime:z.array(z.any())
 })
 
 export const serviceEditSchema = z.object({
@@ -13,7 +13,7 @@ export const serviceEditSchema = z.object({
 export const serviceInit = {
     name:"",
     desc:"",
-    minTimeTodo:"",
+    serviceTime:[]
 }
 
 export type serviceInfer =z.infer<typeof serviceSchema>;

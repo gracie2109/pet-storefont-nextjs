@@ -19,13 +19,17 @@ interface DialogProps extends React.HTMLAttributes<HTMLDivElement> {
     desc?: string;
     handleOk?: (value: any) => void;
     open: boolean;
-    setOpen: any
+    setOpen: any;
+    handleClose?:() => void
 }
 
-export function DialogC({children, title, desc, handleOk, open, setOpen, className, ...props}: DialogProps) {
+export function DialogC({children, title, desc, handleOk, open, setOpen, handleClose, className, ...props}: DialogProps) {
 
     return (
-        <Dialog open={open} onOpenChange={() => setOpen(false)} >
+        <Dialog open={open} onOpenChange={() => {
+            setOpen(false);
+            handleClose && handleClose()
+        }} >
             <DialogContent className={cn(className)} {...props} >
                 <DialogHeader>
                     <DialogTitle>{title}</DialogTitle>

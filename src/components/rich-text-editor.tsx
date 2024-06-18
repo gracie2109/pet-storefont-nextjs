@@ -5,9 +5,8 @@ import 'suneditor/dist/css/suneditor.min.css';
 import dynamic from "next/dynamic";
 import {ControllerRenderProps, FieldValues} from "react-hook-form";
 import {onImageUploadBeforeSunEdior} from "@/lib/helpers";
+import {useMounted} from "@/hooks/use-mounted";
 import {SunEditorReactProps} from "suneditor-react/dist/types/SunEditorReactProps";
-
-
 
 const SunEditor = dynamic(() => import("suneditor-react"), {
     ssr: false,
@@ -19,27 +18,25 @@ interface Props {
 
 const RichTextEditor = React.forwardRef<
     HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>& Props
->(({  field }, ref) =>{
-    const [value, setValue] = React.useState<string>(field.value);
+    React.HTMLAttributes<HTMLDivElement>& SunEditorReactProps & Props
+>(({  field,...props }, ref) =>{
 
-    const optionsMenmo = React.useMemo(() => {
-        return sunEditorSetting
-    }, []);
+    const optionsMenmo = React.useMemo(() => sunEditorSetting , []);
+    const mounted = useMounted();
 
-    return (
-        <div>
-            <SunEditor
-                setOptions={optionsMenmo}
-                {...field}
+    if(mounted)
+        return (
 
-                setContents={field.value ? field.value : ""}
-                onImageUploadBefore={onImageUploadBeforeSunEdior("petshop/products")}
-                height="50vh"
-                // @ts-ignore
-                ref={ref}
-            />
-        </div>
+                <SunEditor
+                    setOptions={optionsMenmo}
+                    {...field}
+                    {...props}
+                    setContents={field.value ?? ""}
+                    onImageUploadBefore={onImageUploadBeforeSunEdior("petshop/products")}
+                    height="50vh"
+
+
+                />
     )
 })
 RichTextEditor.displayName = "RichTextEditor"

@@ -15,7 +15,7 @@ export default async function NewsHandlePage({ params }: Params) {
     const data = id !== "create" &&  await getDetailPost(params.id.toString());
 
     return (
-        <Shell variant="sidebar" className="overflow-x-hidden">
+        <Shell variant="markdown" className="overflow-x-hidden">
             <PageHeaderShell separated>
                 <PageHeader>
                     <PageHeaderHeading size="sm">

@@ -8,6 +8,13 @@ export interface ICustomers  extends ShareResponse {
     socials:[],
     status:string,
     employeeStatus:boolean,
-    roles: string[],
+    roles: {
+        _id: string,
+        name: string,
+    }[],
 
 }
+
+
+
+
