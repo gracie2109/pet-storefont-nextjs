@@ -1,15 +1,13 @@
 'use client';
 
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Input} from "@/components/ui/input";
 import * as React from "react";
 import {ReloadIcon} from "@radix-ui/react-icons";
 import {Button} from "@/components/ui/button";
 import {Switch} from "@/components/ui/switch";
-import {convertToVietnamTime} from "@/lib/helpers";
 import {ServiceTimerShell} from "@/components/service-timer-shell";
 import {useMounted} from "@/hooks/use-mounted";
-import {useFieldArray, Controller} from "react-hook-form";
 
 interface ServiceFormProps {
     submitHandler: (value: any) => void,

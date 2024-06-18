@@ -50,6 +50,7 @@ export const endPoint = {
 
     //customers
     getListCustomers: "customers/get-all",
+    getDetailUser:"/user/get-user",
 
     //brands
     createNewBrand:"brands/new-brand",

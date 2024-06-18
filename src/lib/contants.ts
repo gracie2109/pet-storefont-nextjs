@@ -271,3 +271,131 @@ for(let i = 0; i< 20; i++){
 
 
 export const  sampleOption = ['Color', 'Size', 'Material', "Type"]
+
+
+export const userOrderData = [
+        {
+                id: '802e1c98f6ec45a6851619293e67cf9b',
+                code: "G-252797",
+                products:[
+                        {
+                                _id: "sp1",
+                                name: "Áo thun Việt Nam trong tim tôi - Đen / XXL",
+                                code:"ANVNNS",
+                                price: 199000,
+                                quantity:1,
+                                totalPrice:199000
+                        },
+                        {
+                                _id: "sp2",
+                                name: "Áo thun tay ngắn Dòng máu Lạc Hồng - Âu Cơ // Trắng - Trắng / XXL",
+                                code:"ANAUCO",
+                                price: 169000,
+                                quantity:1,
+                                totalPrice:169000
+                        },
+                        {
+                                _id: "sp2",
+                                name: "Áo thun tay dài Dòng máu Lạc Hồng - Âu Cơ // Trắng - Trắng / XXL",
+                                code:"ADAUCO",
+                                price: 169000,
+                                quantity:1,
+                                totalPrice:169000
+                        }
+                ],
+                temp_price: 537000,
+                shipping_fee: 40000,
+                total_price:437000,
+                orderDate: " 06/13/2024 01:45:58",
+                cancelDate: "06/13/2024 11:12SA",
+                cancelReason:" Khách hàng đổi ý",
+                paymentStatus:"PENDING",
+                fulfillmentStatus:"not fulfilled",
+                user_shipping:{
+                        name:"Trịnh Phương Thảo",
+                        phone: "0327072255",
+                        address:"bia hơi Bích Triệu, tổ dân phố 15,\n"
+                },
+                status: "CANCELLED"
+        },
+        {
+                id: '50751b590bca47618ed1c4af08ed7488',
+                code: "G-250848",
+                status: "COMPLETED",
+                products:[
+                        {
+                                _id: "sp1",
+                                name: "Áo thun Grimm DC raccoon | đen - Đen / XL",
+                                code:"ANRACCOON",
+                                price: 199000,
+                                quantity:1,
+                                totalPrice:199000
+                        }
+                ],
+                temp_price: 199000,
+                shipping_fee: 35000,
+                total_price:229000,
+                orderDate: " 04/28/2024 05:33:54",
+                cancelDate: null,
+                cancelReason:null,
+                paymentStatus:"PAID",
+                fulfillmentStatus:"FULFILLED",
+                user_shipping:{
+                        name:"Trịnh Phương Thảo",
+                        phone: "0327072255",
+                        address:"bia hơi Bích Triệu, tổ dân phố 15,\n"
+                }
+        },
+        {
+                id: '802e1c98f6ec45a6851619293e67cf9c',
+                code: "G-2527201",
+                products:[
+                        {
+                                _id: "sp435",
+                                name: "Nón Grimmm DC Raccoon\n",
+                                code:"NTRACCOON",
+                                price: 119000,
+                                quantity:1,
+                                totalPrice:199000
+                        },
+                        {
+                                _id: "sp1",
+                                name: "Áo thun Việt Nam trong tim tôi - Đen / XXL",
+                                code:"ANVNNS",
+                                price: 199000,
+                                quantity:1,
+                                totalPrice:199000
+                        },
+                        {
+                                _id: "sp2",
+                                name: "Áo thun tay ngắn Dòng máu Lạc Hồng - Âu Cơ // Trắng - Trắng / XXL",
+                                code:"ANAUCO",
+                                price: 169000,
+                                quantity:2,
+                                totalPrice:169000
+                        },
+                        {
+                                _id: "sp2",
+                                name: "Áo thun tay dài Dòng máu Lạc Hồng - Âu Cơ // Trắng - Trắng / XXL",
+                                code:"ADAUCO",
+                                price: 169000,
+                                quantity:1,
+                                totalPrice:169000
+                        }
+                ],
+                temp_price: 706000,
+                shipping_fee: 40000,
+                total_price:737000,
+                orderDate: " 06/17/2024 01:45:58",
+                cancelDate:null,
+                cancelReason:null,
+                paymentStatus:"PENDING",
+                fulfillmentStatus:"NOT_FULFILLED",
+                user_shipping:{
+                        name:"Trịnh Phương Thảo",
+                        phone: "0327072255",
+                        address:"bia hơi Bích Triệu, tổ dân phố 15,\n"
+                },
+                status: "PENDING"
+        },
+]

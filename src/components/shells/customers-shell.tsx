@@ -1,10 +1,5 @@
 'use client';
 
-
-
-
-
-
 import * as React from "react";
 import {usePathname} from "next/navigation";
 import {useMounted} from "@/hooks/use-mounted";
@@ -17,7 +12,6 @@ import Link from "next/link";
 import {Badge} from "@/components/ui/badge";
 import {Button} from "@/components/ui/button";
 import {Edit, EyeIcon, Trash} from "lucide-react";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {ICustomers} from "@/types/customers";
 import {DataTableRaw} from "@/components/data-tables";
 
@@ -182,17 +176,20 @@ export function CustomersShell ({data}:Props) {
 
 
     return (
-        <DataTableRaw
-            columns={columns}
-            data={data}
-            showToolbar={true}
-            newRowLink={`${pathname}/create`}
-            searchableColumns={[
-                {
-                    title: "customers name",
-                    id: "username"
-                }
-            ]}
-        />
+        <>
+            <DataTableRaw
+                columns={columns}
+                data={data}
+                showToolbar={true}
+                newRowLink={`${pathname}/create`}
+                searchableColumns={[
+                    {
+                        title: "customers name",
+                        id: "username"
+                    }
+                ]}
+            />
+
+        </>
     )
 }

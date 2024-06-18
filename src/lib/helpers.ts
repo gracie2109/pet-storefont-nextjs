@@ -253,3 +253,23 @@ export const profitAndMarginAlg = (sale_price:number, cost_price: number,  pusch
     if(!(sale_price && cost_price && puschase_price)) return null;
     return Number(sale_price - puschase_price);
 }
+
+export const getChangesServiceTime = (data:any[]) => {
+    if(!data) return [];
+
+    return data.reduce((result:any, item:any) => {
+        const newItem:any = {};
+        for (const key in item) {
+            const valueObject = item[key];
+            const newValueObject:any = {};
+            for (const subKey in valueObject) {
+                const value = valueObject[subKey].value;
+                if (typeof value === 'string') newValueObject[subKey] = { value }
+            }
+            if (Object.keys(newValueObject).length > 0) newItem[key] = newValueObject;
+        }
+        if (Object.keys(newItem).length > 0) result.push(newItem);
+
+        return result;
+    }, []);
+}

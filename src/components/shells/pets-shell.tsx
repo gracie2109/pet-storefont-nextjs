@@ -37,7 +37,6 @@ export function PetsShell(props: Props) {
     const [mode, setMode] = React.useState<string | null>(null)
     const mouted = useMounted()
 
-    console.log("mode", mode)
     const columns = React.useMemo<ColumnDef<any, unknown>[]>(
         () => [
             {

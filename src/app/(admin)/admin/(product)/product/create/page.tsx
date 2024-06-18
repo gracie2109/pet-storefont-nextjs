@@ -32,6 +32,7 @@ import MultipleSelector from "@/components/multiple-selector";
 import {CollapsibleTable} from "@/components/collapsible-table";
 import {SelectOptions} from "@/types";
 import {profitAndMarginAlg} from "@/lib/helpers";
+import {toast} from "react-hot-toast";
 
 type TVariantOption = {
     name: string,
@@ -64,7 +65,13 @@ export default function ProductCreatePage() {
                 {
                     price: "",
                     quantity: "",
-                    name:""
+                    name:"",
+                    children: [ {
+                        name:"",
+                        price: "",
+                        quantity: ""
+                    }]
+
                 }
             ]
         }
@@ -74,11 +81,6 @@ export default function ProductCreatePage() {
         control: form.control,
     });
 
-    const {fields: products} = useFieldArray({
-        name: "variant_products",
-        control: form.control
-    })
-
 
     const [collapse, setCollapse] = React.useState<string[]>([]);
     const [variantGroup, setVariantGroup] = React.useState<string | null>(form.getValues('variant_options')?.[0]?.name || null);
@@ -86,13 +88,13 @@ export default function ProductCreatePage() {
 
 
     const handleChangeOptionValue = (optionValues:any[], index:any) => {
-        // if(optionValues.length == 0 ){
-        //     form.setError(index,{
-        //         message:` ${index.split('.').at(-1)} is required`
-        //     })
-        // }else{
-        //     form.clearErrors([index])
-        // }
+        if(optionValues.length == 0 ){
+            form.setError(index,{
+                message:` ${index.split('.').at(-1)} is required`
+            })
+        }else{
+            form.clearErrors([index])
+        }
     }
 
     const submitHandlerPrd = () => {
@@ -110,8 +112,6 @@ export default function ProductCreatePage() {
             form.setValue('margin', `${data}%`);
         }
     },[form.watch('price') ,form.watch('cost_price'),form.watch('cost') ])
-
-
 
 
     const renderPlaceHolder = (index: number) => {
@@ -296,7 +296,7 @@ export default function ProductCreatePage() {
                                                                     <FormControl>
                                                                         <SelectTrigger>
                                                                             <SelectValue
-                                                                                placeholder={field.value ?? ''}/>
+                                                                                placeholder={field.value || 'Choose unit'}/>
                                                                         </SelectTrigger>
                                                                     </FormControl>
                                                                     <SelectContent>
@@ -339,7 +339,7 @@ export default function ProductCreatePage() {
                                                                     defaultValue={field.value || 'g'}>
                                                                 <FormControl>
                                                                     <SelectTrigger>
-                                                                        <SelectValue placeholder={field.value ?? ''}/>
+                                                                        <SelectValue placeholder={field.value || 'Choose origin'}/>
                                                                     </SelectTrigger>
                                                                 </FormControl>
                                                                 <SelectContent>
@@ -378,7 +378,13 @@ export default function ProductCreatePage() {
                                                             <div className="rounded-md border border-primary p-2">
                                                                 <div className="flex justify-end">
                                                                     <Button type="button" variant="ghost"
-                                                                            onClick={() => remove(index)}><Trash
+                                                                            onClick={() => {
+                                                                                if(form.getValues('variant_options').length === 1){
+                                                                                    form.resetField('variant_options');
+                                                                                }else {
+                                                                                    remove(index)
+                                                                                }
+                                                                            }}><Trash
                                                                         className="w-4 h-4"/></Button>
 
                                                                     {(form.getValues(`variant_options.${index}.name`).length > 0 && form.getValues(`variant_options.${index}.value`).length > 0) && (
@@ -421,14 +427,15 @@ export default function ProductCreatePage() {
                                                                             control={form.control}
                                                                             key={field.id}
                                                                             name={`variant_options.${index}.name`}
+
                                                                             render={({field}) => (
                                                                                 <FormItem>
                                                                                     <FormLabel>Option Name</FormLabel>
                                                                                     <FormControl>
-                                                                                        <Select onValueChange={field.onChange} defaultValue={field.value || ""}>
-                                                                                            <FormControl>
+                                                                                        <Select onValueChange={field.onChange} >
+                                                                                            <FormControl >
                                                                                                 <SelectTrigger>
-                                                                                                    <SelectValue  />
+                                                                                                    <SelectValue placeholder={field.value || "Choose option Name"} />
                                                                                                 </SelectTrigger>
                                                                                             </FormControl>
                                                                                             <SelectContent>
@@ -449,14 +456,14 @@ export default function ProductCreatePage() {
                                                                             control={form.control}
                                                                             name={`variant_options.${index}.value`}
                                                                             render={({field}) => (
-                                                                                <FormItem>
+                                                                                <FormItem >
                                                                                     <FormLabel>Option Value</FormLabel>
                                                                                     <FormControl>
                                                                                         <MultipleSelector
                                                                                             {...field}
                                                                                             onChange={(e) => {
                                                                                                 field.onChange(e);
-                                                                                                handleChangeOptionValue(e, `variant_options.${index}.value`);
+                                                                                                // handleChangeOptionValue(e, `variant_options.${index}.value`);
                                                                                             }}
                                                                                             placeholder={renderPlaceHolder(index)}
                                                                                             hidePlaceholderWhenSelected
@@ -490,11 +497,14 @@ export default function ProductCreatePage() {
                                                 <Button variant="link" className="p-0" type="button"
                                                         onClick={() => {
                                                             if (fields.length === 0) {
-                                                                append({name: "", value: []})
+                                                                const currentIndex = form.watch('variant_options').length;
+                                                                append({name: "", value: []});
+
+
                                                             } else {
-                                                                const currentIndex = form.getValues('variant_options').length - 1;
-                                                                const currentName = form.getValues(`variant_options.${currentIndex}.name`);
-                                                                const currentValue = form.getValues(`variant_options.${currentIndex}.value`);
+                                                                const currentIndex = form.watch('variant_options').length - 1;
+                                                                const currentName = form.watch(`variant_options.${currentIndex}.name`);
+                                                                const currentValue = form.watch(`variant_options.${currentIndex}.value`);
                                                                 if ((currentName.length === 0 || currentValue.length === 0)) {
                                                                     if (currentName.length === 0) {
                                                                         form.setError(`variant_options.${currentIndex}.name`, {
@@ -510,7 +520,10 @@ export default function ProductCreatePage() {
 
                                                                 } else {
                                                                     form.clearErrors([`variant_options.${currentIndex}.name`, `variant_options.${currentIndex}.value`])
-                                                                    append({name: "", value: []})
+                                                                    append({name: "Choose the option", value: []}, {
+                                                                        shouldFocus:false
+                                                                    });
+
                                                                 }
                                                             }
                                                         }}
@@ -519,9 +532,6 @@ export default function ProductCreatePage() {
                                             </div>
                                         </div>
 
-                                        <div className={"my-8"}>
-                                          ::  {JSON.stringify(form.watch('variant_products'), undefined, 2)}
-                                        </div>
 
 
                                        <div>
@@ -529,9 +539,8 @@ export default function ProductCreatePage() {
                                                form.getValues('variant_options')[0].value.length > 0 &&
                                                (
                                                    <CollapsibleTable
-                                                       data={form.getValues('variant_options')}
+                                                       data={form.watch('variant_options')}
                                                        form={form}
-                                                       products={products}
                                                    />
                                                )}
                                        </div>

@@ -8,7 +8,8 @@ import {serviceEditInfer, serviceEditSchema, serviceSchema, serviceInfer, servic
 import {zodResolver} from "@hookform/resolvers/zod";
 import {createService} from "@/api-requests/services"
 import {IService} from "@/types/service";
-import {setValuesOfForm} from "@/lib/helpers";
+import {getChangesServiceTime, setValuesOfForm} from "@/lib/helpers";
+import {toast} from "react-hot-toast";
 
 interface ServiceHandleTemplateProps {
     params: string,
@@ -36,13 +37,19 @@ export function ServiceHandleTemplate({params, data, weights, pets}: ServiceHand
     }, [data, params])
 
     const handleSubmit = async (values: any) => {
-        await createService(values)
-            .then((data) => {
-                console.log("success", data)
-                form.reset()
-            }).catch((err) => {
-                console.log("error", err)
-            })
+        if(params === "create"){
+            await createService(values)
+                .then((data) => {
+                    console.log("success", data)
+                    form.reset()
+                }).catch((err) => {
+                    console.log("error", err)
+                })
+        }else{
+            values.newServiceTime = getChangesServiceTime(values.serviceTime)
+            toast('Update not ready at the moment');
+            console.log("updateDtaa",values)
+        }
     }
 
     return (

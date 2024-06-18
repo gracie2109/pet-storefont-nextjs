@@ -44,9 +44,9 @@ export const siteConfig = {
             items: [],
         },
         {
-            title: "Customers",
-            href: "/admin/customers",
-            description: "All the customers we have to offer.",
+            title: "Users",
+            href: "/admin/users",
+            description: "All the customers and employee we have to offer.",
             items: [],
         },
         {
@@ -79,6 +79,12 @@ export const siteConfig = {
             title: "Brands",
             href: "/admin/brands",
             description: "All the brands we have",
+            items: [],
+        },
+        {
+            title: "Profile",
+            href: "/profile",
+            description: "Edit your profile",
             items: [],
         },
         {

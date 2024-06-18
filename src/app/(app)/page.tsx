@@ -5,19 +5,15 @@ import {INews} from "@/types/news";
 export default async function HomePage(){
     const post = await getListPost();
     return (
-        <div className="container">
-
-          <div>
-              <p>PostCard</p>
-          </div>
+        <div className="container space-y-5">
             <div>
                 {post.status == 200 ? (
                     <div className="grid grid-cols-4 gap-3 ">
-                        {post.payload.data.map((i:INews,ii:number) => (
-                            <PostCard key={ii} data={i} />
+                        {post.payload.data.map((i: INews, ii: number) => (
+                            <PostCard key={ii} data={i}/>
                         ))}
                     </div>
-                ):null}
+                ) : null}
 
             </div>
 
